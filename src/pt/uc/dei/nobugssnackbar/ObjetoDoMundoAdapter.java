@@ -107,14 +107,6 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 		return objetoMundoImpl.getMaxEnergia();
 	}
 
-	public void esperar(int segundos) {
-		try {
-			Thread.sleep(segundos * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public ObjetoDoMundo esperarAlguem() {
 		terminarEspera = null;
 		objetoMundoImpl.esperarAlguem();

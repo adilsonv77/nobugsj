@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
-import pt.uc.dei.nobugssnackbar.Furbot;
+import pt.uc.dei.nobugssnackbar.SnackMan;
 import pt.uc.dei.nobugssnackbar.ListenerMundo;
 import pt.uc.dei.nobugssnackbar.exceptions.BateuException;
 import pt.uc.dei.nobugssnackbar.exceptions.LimiteException;
@@ -31,27 +31,13 @@ public class Mundo
         listeners.remove(listener);
     }
 
-    public Mundo(int qtdadeLin, int qtdadeCol)
+    public Mundo()
     {
-        imgExplosao = LoadImage.getInstance().getIcon("imagens/explosao.png");
         listeners = new ArrayList<ListenerMundo>();
         listenersMudouPosicao = new ArrayList<ListenerMudouPosicao>();
-        modelo = new PosicaoMundo[qtdadeLin][qtdadeCol];
-        this.qtdadeLin = qtdadeLin;
-        this.qtdadeCol = qtdadeCol;
     }
 
-    public int getQtdadeLin()
-    {
-        return qtdadeLin;
-    }
-
-    public int getQtdadeCol()
-    {
-        return qtdadeCol;
-    }
-
-    public Object getImagem(int lin, int col)
+     public Object getImagem(int lin, int col)
     {
         if(modelo[lin][col] == null)
             return null;
@@ -86,7 +72,7 @@ public class Mundo
 
         if(me != null)
         {
-            if(Furbot.class.isAssignableFrom(objMundo.getObjetoMundo().getClass()))
+            if(SnackMan.class.isAssignableFrom(objMundo.getObjetoMundo().getClass()))
             {
                 throw me;
             } else

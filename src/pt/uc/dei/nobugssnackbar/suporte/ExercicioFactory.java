@@ -69,7 +69,7 @@ public class ExercicioFactory
 	
     private static void addRuleCustomer(Digester d) {
 
-    	d.addObjectCreate("*/customers/customer", Customer.class);
+    	d.addObjectCreate("*/customers/customer", CustomerDefinition.class);
     	d.addBeanPropertySetter("*/customers/customer/id");
     	d.addBeanPropertySetter("*/customers/customer/init");
     	d.addBeanPropertySetter("*/customers/customer/dest");

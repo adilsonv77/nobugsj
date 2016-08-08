@@ -3,7 +3,7 @@ package pt.uc.dei.nobugssnackbar.suporte;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer {
+public class CustomerDefinition {
 	
 	private String id;
 	private String init;

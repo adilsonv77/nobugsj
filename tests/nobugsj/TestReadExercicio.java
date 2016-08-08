@@ -1,6 +1,6 @@
 package nobugsj;
 
-import pt.uc.dei.nobugssnackbar.suporte.Customer;
+import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.ExercicioFactory;
 import pt.uc.dei.nobugssnackbar.suporte.Objective;
@@ -14,7 +14,7 @@ public class TestReadExercicio {
 		System.out.println(exerc.getCooker());
 		
 		System.out.println(exerc.getCustomers().size());
-		for (Customer cust:exerc.getCustomers())
+		for (CustomerDefinition cust:exerc.getCustomers())
 			System.out.println(cust);
 		
 		System.out.println(exerc.getObjectives().size());

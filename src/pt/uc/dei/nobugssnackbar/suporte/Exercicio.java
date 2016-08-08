@@ -15,7 +15,7 @@ public class Exercicio
 	private String explanation;
 	private String cooker;
 	private int tests;
-	private List<Customer> customers = new ArrayList<Customer>();
+	private List<CustomerDefinition> customers = new ArrayList<CustomerDefinition>();
 	private List<Objective> objectives = new ArrayList<Objective>();
 	
     public void setClassExercicio(String classExercicio)
@@ -64,11 +64,11 @@ public class Exercicio
 		this.tests = tests;
 	}
 	 
-	public void addCustomer(Customer customer) {
+	public void addCustomer(CustomerDefinition customer) {
 		this.customers.add(customer);
 	}
 	 
-	public List<Customer> getCustomers() {
+	public List<CustomerDefinition> getCustomers() {
 		return customers;
 	}
 	

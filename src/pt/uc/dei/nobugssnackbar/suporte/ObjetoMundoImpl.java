@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import pt.uc.dei.nobugssnackbar.Direcao;
-import pt.uc.dei.nobugssnackbar.Furbot;
+import pt.uc.dei.nobugssnackbar.SnackMan;
 import pt.uc.dei.nobugssnackbar.ObjetoDoMundo;
 import pt.uc.dei.nobugssnackbar.exceptions.AcabouEnergiaException;
 import pt.uc.dei.nobugssnackbar.exceptions.MundoException;
@@ -505,7 +505,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 			throw (MundoException) ex.get(0);
 		List<T> objsMundo = new ArrayList<T>();
 		for (ObjetoMundoImpl obj : objetos.get(0)) {
-			if (!Furbot.class.isInstance(obj.getObjetoMundo())
+			if (!SnackMan.class.isInstance(obj.getObjetoMundo())
 					&& (clazz == null || obj.getObjetoMundo().getClass() == clazz))
 				objsMundo.add((T) obj.getObjetoMundo());
 		}
