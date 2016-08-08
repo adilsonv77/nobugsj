@@ -54,7 +54,9 @@ public class MundoVisual extends JFrame {
 		executou = false;
 		euMesmo = this;
 		this.snackManClass = snackManClass;
+		
 		mundoNoBugs = new NoBugsVisual(exercicio, snackManClass);
+		mundoNoBugs.setMundoVisual(this);
 		
 		initComponents(exercicio);
 	}
@@ -193,6 +195,12 @@ public class MundoVisual extends JFrame {
 		mundoNoBugs.executar();
 		executou = true;
 		mundoNoBugs.requestFocus();
+	}
+
+	public void fimExecucao() {
+		jbExecutar.setEnabled(true);
+		jbParar.setEnabled(false);
+		jbRenovar.setEnabled(true);
 	}
 
 	private void habilitarBotoesExecucao() {
