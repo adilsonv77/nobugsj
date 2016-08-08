@@ -91,7 +91,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	public void parar() {
 		this.snackman.parar();
-		this.thread.interrupt();
+		if (this.thread != null) {
+			this.thread.interrupt();
+			this.thread = null;
+		}
 		this.mundoVisual.fimExecucao();
 		
 	}
