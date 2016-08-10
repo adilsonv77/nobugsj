@@ -8,7 +8,9 @@ public class NoBugsM1 extends SnackMan {
 	@Override
 	public void serve() throws Exception {
 		
-		System.out.println("FOI");
+		goToBarCounter(3);
+		goToBarCounter(2);
+		goToBarCounter(1);
 
 	}
 	

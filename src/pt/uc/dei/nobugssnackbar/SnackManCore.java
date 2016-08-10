@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import pt.uc.dei.nobugssnackbar.exceptions.MundoException;
+import pt.uc.dei.nobugssnackbar.exceptions.SnackManEncerradoException;
 import pt.uc.dei.nobugssnackbar.grafos.Grafo;
 import pt.uc.dei.nobugssnackbar.grafos.Vertice;
 import pt.uc.dei.nobugssnackbar.suporte.FinishedRunListener;
@@ -25,13 +26,16 @@ public class SnackManCore implements Runnable {
 	private boolean podeParar;
 	private List<FinishedRunListener> fimListeners = new ArrayList<>();
 	private SnackMan snackMan;
-	private int initialX;
-	private int initialY;
-	private int curX, curY;
 	private Grafo graph;
 	private HashMap<String, Point> map;
 	private Vertice[] counterPositions;
-
+	private Point curPosition;
+	private Point initial;
+	private int meuTempoEspera = -1;
+	private NoBugsVisual noBugsVisual;
+	private Vertice vertCurPosition;
+	public static int tempoEspera = 500;
+	
 	public SnackManCore(SnackMan snackMan) {
 		this.snackMan = snackMan;
 		this.snackMan.setCore(this);
@@ -41,15 +45,19 @@ public class SnackManCore implements Runnable {
 
 	public void setInitialPosition(String position) {
 		if (position.equals("initial")) {
-			this.initialX = 270;
-			this.initialY = 356;
-			
-			this.curX = initialX;
-			this.curY = initialY;
+			this.vertCurPosition = graph.acharVertice("n1");
+			this.initial = map.get(vertCurPosition.getNome());
+			this.curPosition = this.initial;
 		}
 	}
 
 	public void paint(Graphics g) {
+		
+		int curX = (int) Math.round(Math.floor(this.curPosition.getX()));
+		int curY = (int) Math.round(Math.floor(this.curPosition.getY()));
+		
+		curY = curY - 77; // 77 is the snackman height
+
 		g.drawImage(this.snackMan.getImage(), curX, curY, null);
 		
 	}
@@ -98,10 +106,70 @@ public class SnackManCore implements Runnable {
 		this.podeParar = true;
 		
 	}
+	
+	private boolean isParar() {
+		return this.podeParar;
+	}
 
 	private void serve() throws Exception {
 		snackMan.serve();
 		
+	}
+	public void goToBarCounter(int counter) throws Exception {
+		if (counter < 0 || counter > 3) {
+			throw new Exception("A posição " + counter + " não existe no balcão " );
+		}
+		
+		this.animateSnackMan(counterPositions[counter-1]);
+	}
+
+	private void animateSnackMan(Vertice dest) throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+		
+		ArrayList<Vertice> solution = graph.encontrarMenorCaminhoDijkstra(this.vertCurPosition, dest);
+		
+		for (Vertice v:solution) {
+			
+			if (isParar())
+				return;
+			
+			noBugsVisual.changeSnackManPosition(v);
+
+			try {
+				Thread.sleep(getTempoEspera());
+			} catch (Exception ex) {
+				return;
+			}
+		}
+		
+		
+	}
+	
+	public void changeSnackManPosition(Vertice v) {
+		
+		this.curPosition = map.get(v.getNome());
+		this.vertCurPosition = v;
+		
+	}
+
+	public int getTempoEspera() {
+		if (meuTempoEspera  == -1)
+			return tempoEspera;
+		else
+			return meuTempoEspera;
+	}
+
+	public void setTempoEspera(int milisegundos) {
+		meuTempoEspera = milisegundos;
+	}
+
+	public NoBugsVisual getMundo() {
+		return noBugsVisual;
+	}
+
+	public void setMundo(NoBugsVisual mundo) {
+		this.noBugsVisual = mundo;
 	}
 	
 	private void createPath() {

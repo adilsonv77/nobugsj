@@ -53,11 +53,11 @@ public class Customer
 
 	private void defineInitialXY(int idxC) {
 		switch (idxC) {
-			case 1: this.initialX = 44; this.initialY = 196;
+			case 1: this.initialX = 44; this.initialY = 200;
 					break;
-			case 2: this.initialX = 44; this.initialY = 276;
+			case 2: this.initialX = 44; this.initialY = 280;
 					break;
-			case 3: this.initialX = 44; this.initialY = 356;
+			case 3: this.initialX = 44; this.initialY = 360;
 					break;
 		}
 	}

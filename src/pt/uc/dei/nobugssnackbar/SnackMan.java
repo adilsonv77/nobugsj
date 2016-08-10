@@ -27,6 +27,10 @@ public abstract class SnackMan {
 		
 		return this.image;
 	}
+	
+	public final void goToBarCounter(int counter) throws Exception {
+		core.goToBarCounter(counter);
+	}
 
 	public abstract void serve() throws Exception;
 

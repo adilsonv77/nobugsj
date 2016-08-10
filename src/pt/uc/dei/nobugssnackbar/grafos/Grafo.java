@@ -262,15 +262,17 @@ public class Grafo {
         menorCaminho.add(v1);
 
         // Colocando a distancias iniciais 
-        for (int i = 0; i < this.getVertices().size(); i++) {
+        for (Vertice v : this.getVertices()) {
+        	
             // Vertice atual tem distancia zero, e todos os outros,
             // 9999("infinita")
-            if (this.getVertices().get(i).getNome().equals(v1.getNome()))
-                this.getVertices().get(i).setDistancia(0);
+            if (v.getNome().equals(v1.getNome()))
+                v.setDistancia(0);
             else
-                this.getVertices().get(i).setDistancia(9999);
+                v.setDistancia(9999);
             // Insere o vertice na lista de vertices nao visitados
-            naoVisitados.add(this.getVertices().get(i));
+            naoVisitados.add(v);
+            v.setVisitado(false);
         }
 
         Collections.sort(naoVisitados);

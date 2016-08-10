@@ -126,6 +126,7 @@ public class MundoVisual extends JFrame {
 				novaSequencia(exercicio);
 				try {
 					mundoNoBugs.setExercicio(exercicio);
+					mundoNoBugs.setTempoEspera(slider.getValue());
 					mundoNoBugs.reiniciar();
 					pack();
 				} catch (Exception e) {
@@ -192,6 +193,7 @@ public class MundoVisual extends JFrame {
 				e.printStackTrace();
 			}
 		habilitarBotoesExecucao();
+		mundoNoBugs.setTempoEspera(slider.getValue());
 		mundoNoBugs.executar();
 		executou = true;
 		mundoNoBugs.requestFocus();

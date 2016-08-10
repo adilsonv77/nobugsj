@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import pt.uc.dei.nobugssnackbar.grafos.Vertice;
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.FinishedRunListener;
@@ -29,15 +30,15 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	private MundoVisual mundoVisual;
 
 	private Thread thread;
+
+	private Class<? extends SnackMan> snackManClass;
 	
 
-	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackman) throws Exception {
+	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		this.image = LoadImage.getInstance().getImage("imagens/fundo_new2.png");
+		this.snackManClass = snackManClass;
 		setPreferredSize(new Dimension(360, 440));
-		
-		createKitchenFurniture();
-		createCooker(snackman, exercicio.getCooker());
-		createCustomers(exercicio.getCustomers());
+		setExercicio(exercicio);
 	}
 
 	private void createKitchenFurniture() throws Exception {
@@ -66,6 +67,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		this.snackman = snackman.newInstance().getCore();
 		this.snackman.setInitialPosition(cooker);
 		this.snackman.addFinishedRunListener(this);
+		this.snackman.setMundo(this);
 		
 	}
 
@@ -99,24 +101,24 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		
 	}
 
-	public void setExercicio(Exercicio exercicio) {
-		// TODO Auto-generated method stub
-		
+	public void setExercicio(Exercicio exercicio) throws Exception {
+		createKitchenFurniture();
+		createCooker(snackManClass, exercicio.getCooker());
+		createCustomers(exercicio.getCustomers());
 	}
 
 	public void reiniciar() {
-		// TODO Auto-generated method stub
+		
+		repaint();
 		
 	}
 
 	public int getTempoEspera() {
-		// TODO Auto-generated method stub
-		return 0;
+		return snackman.getTempoEspera();
 	}
 
 	public void setTempoEspera(int value) {
-		// TODO Auto-generated method stub
-		
+		snackman.setTempoEspera(value);
 	}
 
 	public void executar() {
@@ -131,8 +133,19 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	@Override
 	public void finished() {
-		this.thread.interrupt();
+		if (this.thread != null) {
+			this.thread.interrupt();
+			this.thread = null;
+		}
 		this.mundoVisual.fimExecucao();
+	}
+
+	public void changeSnackManPosition(Vertice vertice) {
+		
+		this.snackman.changeSnackManPosition(vertice);
+		
+		repaint();
+		
 	}
 
 }
