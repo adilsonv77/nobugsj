@@ -27,6 +27,7 @@ public class Customer
 	private int curOrder;
 	private int index;
 	private int fUnfulfilled = 0;
+	private boolean thereIsACustomer = false;
 
 	public Customer(CustomerDefinition def, int index)
     {
@@ -36,7 +37,7 @@ public class Customer
 	    		this.image = LoadImage.getInstance().getImage("imagens/banco.png");
 	    		defineInitialXY(index+1);
 	    	} else {
-	    		
+	    		this.thereIsACustomer = true;
 	    		this.id = def.getId();
     			buildImage();
 	    		if (def.getInit().startsWith("counter")) {
@@ -54,6 +55,10 @@ public class Customer
 		this.curX = this.initialX;
 		this.curY = this.initialY;
     }
+	
+	public boolean isThereIsACustomer() {
+		return thereIsACustomer;
+	}
 
 	private void defineInitialXY(int idxC) {
 		switch (idxC) {
@@ -167,6 +172,12 @@ public class Customer
     		}
     	
     	return null;
+	}
+
+	public boolean hasHunger() {
+		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		
+    	return (this.fUnfulfilled < foods.size());
 	}
 
 }

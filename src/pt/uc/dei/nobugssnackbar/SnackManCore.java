@@ -36,7 +36,7 @@ public class SnackManCore implements Runnable {
 	private Vertice vertCurPosition;
 	private Vertice displayNode;
 	private Vertice coolerNode;
-	public static int tempoEspera = 500;
+	public static int tempoEspera = 100;
 	
 	public SnackManCore(SnackMan snackMan) {
 		this.snackMan = snackMan;
@@ -158,6 +158,21 @@ public class SnackManCore implements Runnable {
 		return food;
 	}
 
+	public boolean hasHunger() {
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		return found.hasHunger();
+	}
+
+	public boolean isThereACustomer() {
+		Customer found = this.getCustomer();
+		return found != null;
+	}
+	
 	private Customer getCustomer() {
 		for (int i = 0; i < 3; i++) {
 			if (vertCurPosition.getNome().equals(counterPositions[i].getNome()))
@@ -804,6 +819,8 @@ public class SnackManCore implements Runnable {
 		map.put("nCoffee3", new Point(164, 240));
 		
 	}
+
+
 
 
 

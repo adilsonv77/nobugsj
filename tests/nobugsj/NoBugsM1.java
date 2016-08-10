@@ -12,9 +12,15 @@ public class NoBugsM1 extends SnackMan {
 		for (int i = 1; i <= 3; i++) {
 			
 			goToBarCounter(i);
-			talk("Cheguei no cliente " + i);
-			Order food = askForFood();
-			talk(food);
+			if (isThereACustomer()) {
+				
+				talk("Cheguei no cliente " + i);
+				if (hasHunger()) {
+					
+					Order food = askForFood();
+					talk(food);
+				}
+			}
 		}
 		
 

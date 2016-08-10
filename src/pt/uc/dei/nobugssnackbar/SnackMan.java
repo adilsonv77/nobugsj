@@ -48,6 +48,13 @@ public abstract class SnackMan {
 		return core.askForFood();
 	}
 	
+	public final boolean hasHunger() throws Exception {
+		return core.hasHunger();
+	}
+	
+	public final boolean isThereACustomer() throws Exception {
+		return core.isThereACustomer();
+	}
 	public abstract void serve() throws Exception;
 
 	public static final double VERSAO = 0.1;

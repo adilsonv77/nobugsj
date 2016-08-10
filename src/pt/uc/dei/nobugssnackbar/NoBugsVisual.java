@@ -153,7 +153,11 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public Customer getCustomerCounter(int counterIndex) {
-		return customers.get(counterIndex-1);
+		Customer cust = customers.get(counterIndex-1);
+		if (cust != null && cust.isThereIsACustomer())
+			return cust;
+		
+		return null;
 	}
 
 }
