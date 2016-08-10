@@ -173,6 +173,39 @@ public class SnackManCore implements Runnable {
 		return found != null;
 	}
 	
+	public Order pickUpHotDog(Order food) {
+		
+		if (!this.vertCurPosition.getNome().equals(displayNode.getNome()))
+			throw new MundoException("Não está em frente do mostrador quente.");
+		
+		if (food == null || !food.getTypeOrder().equals("order")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+		
+		if (!food.getFoodOrDrink().equals("food") || !food.getItem().contains("hotdog")) {
+			throw new MundoException("Não tem lanche no pedido.");
+		}
+		
+		return new Order("item", food.getItem(), "food", food.getCustPosition()-1, food.getCustPlace());
+	}
+
+	public void deliver(Order order) {
+		
+		if (order == null || !order.getTypeOrder().equals("item")) 
+			throw new MundoException("Esqueceu de pegar o produto.");
+		
+		Customer found = this.getCustomer();
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		int amount = found.deliver(order);
+		noBugsVisual.repaint();
+		order.delivered();
+		
+		
+	}
+
 	private Customer getCustomer() {
 		for (int i = 0; i < 3; i++) {
 			if (vertCurPosition.getNome().equals(counterPositions[i].getNome()))
@@ -819,6 +852,7 @@ public class SnackManCore implements Runnable {
 		map.put("nCoffee3", new Point(164, 240));
 		
 	}
+
 
 
 

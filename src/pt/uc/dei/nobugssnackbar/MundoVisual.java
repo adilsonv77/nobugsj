@@ -63,7 +63,7 @@ public class MundoVisual extends JFrame {
 	private void initComponents(Exercicio exercicio) {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		String title = "NoBugs v " + SnackMan.VERSAO; 
+		String title = "NoBugsJ v " + SnackMan.VERSAO; 
 		setTitle(title);
 		
 		getContentPane().add(mundoNoBugs, "Center");

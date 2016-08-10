@@ -19,6 +19,12 @@ public class NoBugsM1 extends SnackMan {
 					
 					Order food = askForFood();
 					talk(food);
+					
+					goToDisplay();
+					
+					Order order = pickUpHotDog(food);
+					goToBarCounter(i);
+					deliver(order);
 				}
 			}
 		}

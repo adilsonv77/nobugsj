@@ -41,5 +41,11 @@ public class Order {
 		
 		return typeOrder + "  " + item + " " + custPosition;
 	}
+
+	void delivered() {
+		// Cancel this object
+		
+		this.typeOrder = null;
+	}
 	
 }

@@ -55,6 +55,16 @@ public abstract class SnackMan {
 	public final boolean isThereACustomer() throws Exception {
 		return core.isThereACustomer();
 	}
+	
+	public final void deliver(Order order) {
+		core.deliver(order);
+	}
+
+	public final Order pickUpHotDog(Order food) {
+		return core.pickUpHotDog(food);
+	}
+
+	
 	public abstract void serve() throws Exception;
 
 	public static final double VERSAO = 0.1;

@@ -43,6 +43,19 @@ public class OrderConf {
 		return items;
 	}
 
+	public OrderItem findUndeliveredItem(int index) {
+		
+		for (OrderItem oi:items) {
+			if (!oi.isDelivered()) {
+				if (index == 0)
+					return oi;
+				index--;
+			}
+		}
+		
+		return null;
+	}
+
 	
 	
 }
