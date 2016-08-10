@@ -34,13 +34,20 @@ public class SnackManCore implements Runnable {
 	private int meuTempoEspera = -1;
 	private NoBugsVisual noBugsVisual;
 	private Vertice vertCurPosition;
+	private Vertice displayNode;
+	private Vertice coolerNode;
 	public static int tempoEspera = 500;
 	
 	public SnackManCore(SnackMan snackMan) {
 		this.snackMan = snackMan;
 		this.snackMan.setCore(this);
+		
 		createPath();
-		counterPositions = new Vertice[]{graph.acharVertice("n21"), graph.acharVertice("n31"), graph.acharVertice("n79")};
+		
+		this.counterPositions = new Vertice[]{graph.acharVertice("n21"), graph.acharVertice("n31"), graph.acharVertice("n79")};
+		this.displayNode = graph.acharVertice("n11");
+		this.coolerNode = graph.acharVertice("n69");
+		
 	}
 
 	public void setInitialPosition(String position) {
@@ -121,6 +128,14 @@ public class SnackManCore implements Runnable {
 		}
 		
 		this.animateSnackMan(counterPositions[counter-1]);
+	}
+
+	public void goToDisplay() throws Exception {
+		this.animateSnackMan(displayNode);
+	}
+
+	public void goToCooler() throws Exception {
+		this.animateSnackMan(coolerNode);
 	}
 
 	private void animateSnackMan(Vertice dest) throws Exception {
@@ -760,5 +775,7 @@ public class SnackManCore implements Runnable {
 		map.put("nCoffee3", new Point(164, 240));
 		
 	}
+
+
 
 }

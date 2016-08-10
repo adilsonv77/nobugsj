@@ -9,8 +9,10 @@ public class NoBugsM1 extends SnackMan {
 	public void serve() throws Exception {
 		
 		goToBarCounter(3);
+		goToDisplay();
 		goToBarCounter(2);
 		goToBarCounter(1);
+		goToCooler();
 
 	}
 	

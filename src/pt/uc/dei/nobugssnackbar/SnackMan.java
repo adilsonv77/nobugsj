@@ -32,6 +32,14 @@ public abstract class SnackMan {
 		core.goToBarCounter(counter);
 	}
 
+	public final void goToDisplay() throws Exception {
+		core.goToDisplay();
+	}
+	
+	public final void goToCooler() throws Exception {
+		core.goToCooler();
+	} 
+	
 	public abstract void serve() throws Exception;
 
 	public static final double VERSAO = 0.1;

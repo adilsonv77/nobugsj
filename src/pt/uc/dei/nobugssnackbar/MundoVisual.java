@@ -53,7 +53,6 @@ public class MundoVisual extends JFrame {
 	private MundoVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		executou = false;
 		euMesmo = this;
-		this.snackManClass = snackManClass;
 		
 		mundoNoBugs = new NoBugsVisual(exercicio, snackManClass);
 		mundoNoBugs.setMundoVisual(this);
@@ -156,7 +155,7 @@ public class MundoVisual extends JFrame {
 		jbEnunciado.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				
+				JOptionPane.showMessageDialog(null, exercicio.getExplanation());
 			}
 		});
 
@@ -241,7 +240,6 @@ public class MundoVisual extends JFrame {
 	private JTextArea console;
 	private boolean executou;
 	private int mundoAtual;
-	private Class<? extends SnackMan> snackManClass;
 	private static MundoVisual euMesmo;
 	private static HashMap<String, Object> atributos = new HashMap<String, Object>();
 	private JButton jbExecutar;
