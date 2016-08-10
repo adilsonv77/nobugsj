@@ -147,5 +147,13 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		repaint();
 		
 	}
+	
+	public void addConsole(Object text) {
+		this.mundoVisual.addTextConsole(text);
+	}
+
+	public Customer getCustomerCounter(int counterIndex) {
+		return customers.get(counterIndex-1);
+	}
 
 }

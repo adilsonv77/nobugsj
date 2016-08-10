@@ -138,6 +138,35 @@ public class SnackManCore implements Runnable {
 		this.animateSnackMan(coolerNode);
 	}
 
+	public void talk(Object text) throws Exception {
+		noBugsVisual.addConsole(text);
+		
+	}
+	
+	public Order askForFood() {
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		Order food = found.askForFood();
+		if (food == null) {
+			throw new MundoException("Cliente não está com fome.");
+		}
+		
+		return food;
+	}
+
+	private Customer getCustomer() {
+		for (int i = 0; i < 3; i++) {
+			if (vertCurPosition.getNome().equals(counterPositions[i].getNome()))
+				return noBugsVisual.getCustomerCounter(i+1);
+		}
+		
+		throw new MundoException("Não está próximo de nenhum cliente");
+	}
+
 	private void animateSnackMan(Vertice dest) throws Exception {
 		if (isParar())
 			throw new SnackManEncerradoException();
@@ -775,6 +804,8 @@ public class SnackManCore implements Runnable {
 		map.put("nCoffee3", new Point(164, 240));
 		
 	}
+
+
 
 
 

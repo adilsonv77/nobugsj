@@ -210,6 +210,10 @@ public class MundoVisual extends JFrame {
 		jbRenovar.setEnabled(false);
 	}
 
+	public void addTextConsole(Object text) {
+		console.setText(console.getText()+text+"\n");
+	}
+
 	public static void iniciar(String nomeArquivo, final Class<? extends SnackMan> snackManClass) {
 		try {
 			

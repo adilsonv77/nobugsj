@@ -9,7 +9,7 @@ public class CustomerDefinition {
 	private String init;
 	private String dest;
 	
-	private List<Order> orders = new ArrayList<>();
+	private List<OrderConf> orders = new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -30,11 +30,11 @@ public class CustomerDefinition {
 		this.dest = dest;
 	}
 	
-	public void addOrder(Order order) {
+	public void addOrder(OrderConf order) {
 		this.orders.add(order);
 	}
 	
-	public List<Order> getOrders() {
+	public List<OrderConf> getOrders() {
 		return orders;
 	}
 	

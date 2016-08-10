@@ -1,6 +1,7 @@
 package nobugsj;
 
 import pt.uc.dei.nobugssnackbar.MundoVisual;
+import pt.uc.dei.nobugssnackbar.Order;
 import pt.uc.dei.nobugssnackbar.SnackMan;
 
 public class NoBugsM1 extends SnackMan {
@@ -8,11 +9,14 @@ public class NoBugsM1 extends SnackMan {
 	@Override
 	public void serve() throws Exception {
 		
-		goToBarCounter(3);
-		goToDisplay();
-		goToBarCounter(2);
-		goToBarCounter(1);
-		goToCooler();
+		for (int i = 1; i <= 3; i++) {
+			
+			goToBarCounter(i);
+			talk("Cheguei no cliente " + i);
+			Order food = askForFood();
+			talk(food);
+		}
+		
 
 	}
 	

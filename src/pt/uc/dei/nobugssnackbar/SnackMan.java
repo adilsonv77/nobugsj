@@ -40,6 +40,14 @@ public abstract class SnackMan {
 		core.goToCooler();
 	} 
 	
+	public final void talk(Object text) throws Exception {
+		core.talk(text);
+	} 
+	
+	public final Order askForFood() throws Exception {
+		return core.askForFood();
+	}
+	
 	public abstract void serve() throws Exception;
 
 	public static final double VERSAO = 0.1;

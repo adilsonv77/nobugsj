@@ -30,6 +30,16 @@ public class OrderItem {
 		this.type = type;
 	}
 	
+	private boolean delivered;
+
+	public boolean isDelivered() {
+		return delivered;
+	}
+
+	public void setDelivered(boolean delivered) {
+		this.delivered = delivered;
+	}
+	
 	@Override
 	public String toString() {
 		

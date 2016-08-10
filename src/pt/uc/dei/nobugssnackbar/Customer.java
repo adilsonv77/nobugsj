@@ -7,7 +7,8 @@ import java.util.List;
 
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.LoadImage;
-import pt.uc.dei.nobugssnackbar.suporte.Order;
+import pt.uc.dei.nobugssnackbar.suporte.OrderConf;
+import pt.uc.dei.nobugssnackbar.suporte.OrderItem;
 
 /**
  * 
@@ -22,9 +23,10 @@ public class Customer
 	private Image image;
 	private int curX;
 	private int curY;
-	private List<Order> orders;
+	private List<OrderConf> orders;
 	private int curOrder;
 	private int index;
+	private int fUnfulfilled = 0;
 
 	public Customer(CustomerDefinition def, int index)
     {
@@ -41,7 +43,9 @@ public class Customer
 	    			defineInitialXY(Integer.parseInt(def.getInit().substring(7, 8)));
 	    		}
 	    		this.orders  = def.getOrders();
+	    		
 	    		this.curOrder = 0;
+	    		
 	    	}
 	    	
 		} catch (Exception e) {
@@ -74,7 +78,7 @@ public class Customer
     	if (orders == null)
     		return;
     	
-    	Order order = orders.get(curOrder);
+    	OrderConf order = orders.get(curOrder);
     	
     	int idxBaloon, startX, startFoodX = 0;
     	if (this.index % 2 == 0) {
@@ -119,37 +123,6 @@ public class Customer
     	}
     	
     	
-/*
- * Baloon.draw = function(ctx, x, y, orders, left) {
-		switch (orders.length) {
-			case 1: {
-				ctx.drawImage(PreloadImgs.get(baloon1), startX, startY);
-				ctx.drawImage(orders[0], startX+startFoodX+5, startY+5, 20, 20);
-				break;
-			}
-			case 2: {
-				ctx.drawImage(PreloadImgs.get(baloon2), startX, startY);
-				for (var i = 0;i < orders.length;i++) {
-					ctx.drawImage(orders[i], startX+startFoodX+6, startY+2+(18*i), 18, 18);
-				}
-				break;
-			}
-			case 3: {
-				ctx.drawImage(PreloadImgs.get(baloon3), startX, startY);
-				if (left) 
-					startX += 3;
-				else
-					startX += 10;
-
-				for (var i = 0;i < orders.length;i++) {
-					ctx.drawImage(orders[i], startX+startFoodX+5, startY+2+(16*i), 16, 16);
-				}
-				break;
-			}
-		}
-	}
-};		// TODO Auto-generated method stub
- */
 		
 	}
 
@@ -180,5 +153,20 @@ public class Customer
     	
         return this.image;
     }
+
+	public Order askForFood() {
+		
+		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		
+    	if (this.fUnfulfilled >= foods.size())
+    		return null;
+
+    	for (OrderItem oi:foods)
+    		if (!oi.isDelivered()) {
+    	    	return new Order("order", "$$" + oi.getType(), "food", this.index, "counter");
+    		}
+    	
+    	return null;
+	}
 
 }

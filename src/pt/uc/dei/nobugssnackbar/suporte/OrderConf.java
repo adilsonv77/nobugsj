@@ -3,7 +3,7 @@ package pt.uc.dei.nobugssnackbar.suporte;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class OrderConf {
 	
 	private List<OrderItem> foods = new ArrayList<>();
 	private List<OrderItem> drinks = new ArrayList<>();
@@ -43,4 +43,6 @@ public class Order {
 		return items;
 	}
 
+	
+	
 }
