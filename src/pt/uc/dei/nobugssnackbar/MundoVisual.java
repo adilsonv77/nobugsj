@@ -20,8 +20,10 @@ import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.ExercicioFactory;
+import pt.uc.dei.nobugssnackbar.suporte.JCheckList;
 
 /**
  * 
@@ -48,8 +50,6 @@ public class MundoVisual extends JFrame {
 		return atributos.containsKey(nome);
 	}
 
-	private NoBugsVisual mundoNoBugs;
-	
 	private MundoVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		executou = false;
 		euMesmo = this;
@@ -67,14 +67,22 @@ public class MundoVisual extends JFrame {
 		setTitle(title);
 		
 		getContentPane().add(mundoNoBugs, "Center");
+		
+		objetivos = new JCheckList();
+		objetivos.setTitle("Objetivos:");
+		
+		for (Objective obj:mundoNoBugs.getObjectives())
+			objetivos.addItem(obj.getText());
+		
+		getContentPane().add(objetivos, "East");
+		
 		console = new JTextArea();
 		JScrollPane scroll = new JScrollPane(console);
 		console.setEditable(false);
 		console.setRows(5);
 		getContentPane().add(scroll, "South");
 		
-		
-		JPanel jp = getEnunciado(); //exercicio.getExplanation());
+		JPanel jp = getEnunciado();
 		getContentPane().add(jp, "North");
 		jp.add(getControle(exercicio), "South");
 		
@@ -142,6 +150,7 @@ public class MundoVisual extends JFrame {
 		jbParar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+				
 				mundoNoBugs.parar();
 				jbExecutar.setEnabled(true);
 				jbParar.setEnabled(false);
@@ -155,7 +164,10 @@ public class MundoVisual extends JFrame {
 		jbEnunciado.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, exercicio.getExplanation());
+				String explane = exercicio.getExplanation();
+				
+				JLabel msg = new JLabel("<html><body style='width:400px'>"+explane+"</body></html>");
+				JOptionPane.showMessageDialog(null, msg, "Enunciado", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 
@@ -180,6 +192,7 @@ public class MundoVisual extends JFrame {
 
 	private void novaSequencia(Exercicio exercicio) {
 		atributos.clear();
+		objetivos.uncheckAllItems();
 	}
 
 	private void executar(Exercicio exercicio) {
@@ -210,6 +223,10 @@ public class MundoVisual extends JFrame {
 		jbRenovar.setEnabled(false);
 	}
 
+	public void checkGoal(int index) {
+		objetivos.checkItem(index);
+	}
+	
 	public void addTextConsole(Object text) {
 		console.setText(console.getText()+text+"\n");
 	}
@@ -251,5 +268,8 @@ public class MundoVisual extends JFrame {
 	private JButton jbParar;
 	private JSlider slider;
 	private JButton jbRenovar;
+	private NoBugsVisual mundoNoBugs;
+	private JCheckList objetivos;
+	
 
 }

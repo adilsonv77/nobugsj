@@ -72,6 +72,69 @@ public abstract class SnackMan {
 		return core.isThereACustomer();
 	}
 	
+	public final int askWantHowManyFoods() throws Exception {
+		return core.askWantHowManyFoods();
+	}
+	
+	public final int askWantHowManyDrinks() throws Exception {
+		return core.askWantHowManyDrinks();
+	}
+	
+	public final void goToBoxOfFruits() throws Exception {
+		
+	}
+	
+	public final void goToJuiceMachine() throws Exception {
+		
+	}
+
+	public final Order pickUpFruits() throws Exception {
+		return null;
+		
+	}
+
+	public final Order prepareAndPickUpJuice() throws Exception {
+		
+		return null;
+	}
+
+	public final void goToCoffeeMachine() throws Exception {
+		
+	}
+
+	public final void prepareCoffee() throws Exception {
+		
+	}
+
+	public final Order pickUpCoffee() throws Exception {
+		
+		return null;
+	}
+
+	public final void goToIceCreamMachine() throws Exception {
+		
+	}
+
+	public final Order pickUpIceCream() throws Exception {
+		
+		return null;
+	}
+
+	public final int askWantHowManyIceCream() throws Exception {
+		
+		return 0;
+	}
+
+	public final Order askForIceCream() throws Exception {
+		
+		return null;
+	}
+
+	
+/*
+	cashIn
+	giveChange
+	*/
 	public final void deliver(Order order) {
 		core.deliver(order);
 	}

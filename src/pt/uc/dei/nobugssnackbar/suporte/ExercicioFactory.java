@@ -99,7 +99,7 @@ public class ExercicioFactory
     
 	private static void addRuleObjectives(Digester d) {
 		
-		d.addObjectCreate("*/objectives/objective", Objective.class);	
+		d.addObjectCreate("*/objectives/objective", ObjectiveConf.class);	
 		d.addSetProperties("*/objectives/objective");
 		d.addBeanPropertySetter("*/objectives/objective", "type");
 	}

@@ -14,8 +14,8 @@ public class NoBugsM1 extends SnackMan {
 			goToBarCounter(i);
 			if (isThereACustomer()) {
 				
-				talk("Cheguei no cliente " + i);
-				if (hasHunger()) {
+				talk("Cheguei no cliente " + i + " com fome de " + askWantHowManyFoods() + " e sede de " + askWantHowManyDrinks());
+				if (hasHunger()) { 
 					
 					Order food = askForFood();
 					talk(food);

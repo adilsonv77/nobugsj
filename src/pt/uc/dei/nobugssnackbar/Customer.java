@@ -56,7 +56,7 @@ public class Customer
 	    		else
 	    			this.place = "table";
 	    		
-	    		this.orders  = def.getOrders();
+	    		this.orders  = def.cloneOrders();
 	    		
 	    		this.curOrder = 0;
 	    		
@@ -68,6 +68,8 @@ public class Customer
 		this.curX = this.initialX;
 		this.curY = this.initialY;
     }
+	
+	public int getPos() { return this.index + 1; }
 	
 	public boolean isThereIsACustomer() {
 		return thereIsACustomer;
@@ -289,6 +291,14 @@ public class Customer
 	private boolean fullDelivered() {
 		OrderConf order = this.orders.get(this.curOrder);
 		return (this.dUnfulfilled == order.getDrinks().size()) && (this.fUnfulfilled == order.getFoods().size());
+	}
+
+	public int askWantHowManyFoods() {
+		return this.orders.get(this.curOrder).getFoods().size();
+	}
+
+	public int askWantHowManyDrinks() {
+		return this.orders.get(this.curOrder).getDrinks().size();
 	}
 
 }

@@ -8,11 +8,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.grafos.Vertice;
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.FinishedRunListener;
 import pt.uc.dei.nobugssnackbar.suporte.LoadImage;
+import pt.uc.dei.nobugssnackbar.suporte.ObjectiveConf;
 
 public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	
@@ -32,6 +34,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	private Thread thread;
 
 	private Class<? extends SnackMan> snackManClass;
+
+	private List<Objective> objectives = new ArrayList<>();
 	
 
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
@@ -47,6 +51,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	private void createCustomers(List<CustomerDefinition> customersDef) {
+
+		customers.clear();
 
 		int idx = 0, idxC = 1;
 		while (idx < customersDef.size()) {
@@ -105,10 +111,19 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		createKitchenFurniture();
 		createCooker(snackManClass, exercicio.getCooker());
 		createCustomers(exercicio.getCustomers());
+		createObjectives(exercicio.getObjectives());
+	}
+
+	private void createObjectives(List<ObjectiveConf> objectives) throws Exception {
+		this.objectives.clear();
+		for (ObjectiveConf objconf:objectives) {
+			Objective obj = objconf.generate();
+			obj.setMundo(this);
+			this.objectives.add( obj );
+		}
 	}
 
 	public void reiniciar() {
-		
 		repaint();
 		
 	}
@@ -158,6 +173,21 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			return cust;
 		
 		return null;
+	}
+
+	public List<Objective> getObjectives() {
+		return this.objectives;
+	}
+
+	public void verifyObjectives(String key, Object options) {
+
+		for (int i = 0; i < objectives.size(); i++) {
+			Objective obj = objectives.get(i);
+			if (obj.verifyObjective(key, options)) {
+				this.mundoVisual.checkGoal(i);
+			}
+		}
+		
 	}
 
 }

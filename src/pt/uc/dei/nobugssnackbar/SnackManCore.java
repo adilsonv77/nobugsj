@@ -123,27 +123,44 @@ public class SnackManCore implements Runnable {
 		
 	}
 	public void goToBarCounter(int counter) throws Exception {
+		if (isParar())
+		
 		if (counter < 0 || counter > 3) {
 			throw new Exception("A posição " + counter + " não existe no balcão " );
 		}
 		
 		this.animateSnackMan(counterPositions[counter-1]);
+
+		noBugsVisual.verifyObjectives("goesTo", counter);
+		
 	}
 
 	public void goToDisplay() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		this.animateSnackMan(displayNode);
 	}
 
 	public void goToCooler() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		this.animateSnackMan(coolerNode);
 	}
 
 	public void talk(Object text) throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		noBugsVisual.addConsole(text);
 		
 	}
 	
 	public Order askForFood() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		Customer found = this.getCustomer();
 		
 		if (found == null) {
@@ -155,10 +172,15 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Cliente não está com fome.");
 		}
 		
+		noBugsVisual.verifyObjectives("askForFood", found);
+		
 		return food;
 	}
 
 	public boolean hasHunger() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		Customer found = this.getCustomer();
 		
 		if (found == null) {
@@ -169,12 +191,18 @@ public class SnackManCore implements Runnable {
 	}
 
 	public boolean isThereACustomer() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		Customer found = this.getCustomer();
 		return found != null;
 	}
 	
 	public Order pickUpHotDog(Order food) {
 		
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		if (!this.vertCurPosition.getNome().equals(displayNode.getNome()))
 			throw new MundoException("Não está em frente do mostrador quente.");
 		
@@ -186,11 +214,18 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não tem lanche no pedido.");
 		}
 		
-		return new Order("item", food.getItem(), "food", food.getCustPosition()-1, food.getCustPlace());
+		Order order = new Order("item", food.getItem(), "food", food.getCustPosition()-1, food.getCustPlace());
+		
+		noBugsVisual.verifyObjectives("pickUpFood", order);
+
+		return order;
 	}
 
 	public void deliver(Order order) {
 		
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		if (order == null || !order.getTypeOrder().equals("item")) 
 			throw new MundoException("Esqueceu de pegar o produto.");
 		
@@ -199,14 +234,21 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		found.deliver(order);
+		int amount = found.deliver(order);
 		order.delivered();
+		
+		if (amount == 1) {
+			noBugsVisual.verifyObjectives("deliver", found);
+		}
 		
 		noBugsVisual.repaint();
 		
 	}
 	
 	public Order askForDrink() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		Customer found = this.getCustomer();
 		
 		if (found == null) {
@@ -218,10 +260,15 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Cliente não está com sede.");
 		}
 		
+		noBugsVisual.verifyObjectives("askForDrink", found);
+		
 		return drink;
 	}
 
 	public boolean hasThirsty() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		Customer found = this.getCustomer();
 		
 		if (found == null) {
@@ -232,6 +279,9 @@ public class SnackManCore implements Runnable {
 	}
 
 	public Order pickUpDrink(Order drink) {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
 		if (!this.vertCurPosition.getNome().equals(coolerNode.getNome()))
 			throw new MundoException("Não está em frente da geladeira.");
 		
@@ -243,7 +293,10 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não tem bebida no pedido.");
 		}
 		
-		return new Order("item", drink.getItem(), "drink", drink.getCustPosition()-1, drink.getCustPlace());
+		Order order = new Order("item", drink.getItem(), "drink", drink.getCustPosition()-1, drink.getCustPlace());
+		noBugsVisual.verifyObjectives("pickUpDrink", order);
+		
+		return order;
 	}
 
 
@@ -257,6 +310,32 @@ public class SnackManCore implements Runnable {
 		throw new MundoException("Não está próximo de nenhum cliente");
 	}
 
+	public int askWantHowManyFoods() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		return found.askWantHowManyFoods();
+	}
+
+	public int askWantHowManyDrinks() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		return found.askWantHowManyDrinks();
+	}
+
 	private void animateSnackMan(Vertice dest) throws Exception {
 		if (isParar())
 			throw new SnackManEncerradoException();
@@ -266,14 +345,14 @@ public class SnackManCore implements Runnable {
 		for (Vertice v:solution) {
 			
 			if (isParar())
-				return;
+				throw new SnackManEncerradoException();
 			
 			noBugsVisual.changeSnackManPosition(v);
 
 			try {
 				Thread.sleep(getTempoEspera());
 			} catch (Exception ex) {
-				return;
+				throw new SnackManEncerradoException();
 			}
 		}
 		
@@ -894,12 +973,5 @@ public class SnackManCore implements Runnable {
 		map.put("nCoffee3", new Point(164, 240));
 		
 	}
-
-
-
-
-
-
-
 
 }

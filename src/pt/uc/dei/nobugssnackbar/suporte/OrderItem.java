@@ -40,6 +40,17 @@ public class OrderItem {
 		this.delivered = delivered;
 	}
 	
+	public OrderItem clone() {
+		OrderItem ret = new OrderItem();
+		
+		ret.setDelivered(delivered);
+		ret.setPrice(price);
+		ret.setQtdade(qtdade);
+		ret.setType(type);
+		
+		return ret;
+	}
+	
 	@Override
 	public String toString() {
 		

@@ -16,7 +16,7 @@ public class Exercicio
 	private String cooker;
 	private int tests;
 	private List<CustomerDefinition> customers = new ArrayList<CustomerDefinition>();
-	private List<Objective> objectives = new ArrayList<Objective>();
+	private List<ObjectiveConf> objectives = new ArrayList<ObjectiveConf>();
 	
     public void setClassExercicio(String classExercicio)
     {
@@ -72,11 +72,11 @@ public class Exercicio
 		return customers;
 	}
 	
-	public void addObjective(Objective obj) {
+	public void addObjective(ObjectiveConf obj) {
 		this.objectives.add(obj);
 	}
 	
-	public List<Objective> getObjectives() {
+	public List<ObjectiveConf> getObjectives() {
 		return objectives;
 	}
 	 /*

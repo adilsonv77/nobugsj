@@ -3,7 +3,7 @@ package nobugsj;
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.ExercicioFactory;
-import pt.uc.dei.nobugssnackbar.suporte.Objective;
+import pt.uc.dei.nobugssnackbar.suporte.ObjectiveConf;
 
 public class TestReadExercicio {
 
@@ -18,7 +18,7 @@ public class TestReadExercicio {
 			System.out.println(cust);
 		
 		System.out.println(exerc.getObjectives().size());
-		for (Objective obj:exerc.getObjectives())
+		for (ObjectiveConf obj:exerc.getObjectives())
 			System.out.println(obj);
 	}
 
