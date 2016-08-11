@@ -26,6 +26,20 @@ public class NoBugsM1 extends SnackMan {
 					goToBarCounter(i);
 					deliver(order);
 				}
+
+				if (hasThirsty()) {
+					
+					Order drink = askForDrink();
+					talk(drink);
+					
+					goToCooler();
+					
+					Order order = pickUpDrink(drink);
+					goToBarCounter(i);
+					deliver(order);
+					
+					
+				}
 			}
 		}
 		

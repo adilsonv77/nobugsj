@@ -193,6 +193,26 @@ public class Customer
     	return (this.fUnfulfilled < foods.size());
 	}
 
+	public Order askForDrink() {
+		List<OrderItem> drinks = this.orders.get(this.curOrder).getDrinks();
+		
+    	if (this.dUnfulfilled >= drinks.size())
+    		return null;
+
+    	for (OrderItem oi:drinks)
+    		if (!oi.isDelivered()) {
+    	    	return new Order("order", "$$" + oi.getType(), "drink", this.index, this.place);
+    		}
+    	
+    	return null;
+	}
+
+	public boolean hasThirsty() {
+		List<OrderItem> drinks = this.orders.get(this.curOrder).getDrinks();
+		
+    	return (this.dUnfulfilled < drinks.size());
+	}
+
 	public int deliver(Order item) {
 		
 		int happy = -1;

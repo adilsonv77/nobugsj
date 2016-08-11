@@ -52,16 +52,28 @@ public abstract class SnackMan {
 		return core.hasHunger();
 	}
 	
+	public final Order pickUpHotDog(Order food) {
+		return core.pickUpHotDog(food);
+	}
+
+	public final Order askForDrink() throws Exception {
+		return core.askForDrink();
+	}
+	
+	public final boolean hasThirsty() throws Exception {
+		return core.hasThirsty();
+	}
+	
+	public final Order pickUpDrink(Order drink) {
+		return core.pickUpDrink(drink);
+	}
+
 	public final boolean isThereACustomer() throws Exception {
 		return core.isThereACustomer();
 	}
 	
 	public final void deliver(Order order) {
 		core.deliver(order);
-	}
-
-	public final Order pickUpHotDog(Order food) {
-		return core.pickUpHotDog(food);
 	}
 
 	

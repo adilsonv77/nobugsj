@@ -199,12 +199,54 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		int amount = found.deliver(order);
-		noBugsVisual.repaint();
+		found.deliver(order);
 		order.delivered();
 		
+		noBugsVisual.repaint();
 		
 	}
+	
+	public Order askForDrink() {
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		Order drink = found.askForDrink();
+		if (drink == null) {
+			throw new MundoException("Cliente não está com sede.");
+		}
+		
+		return drink;
+	}
+
+	public boolean hasThirsty() {
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		return found.hasThirsty();
+	}
+
+	public Order pickUpDrink(Order drink) {
+		if (!this.vertCurPosition.getNome().equals(coolerNode.getNome()))
+			throw new MundoException("Não está em frente da geladeira.");
+		
+		if (drink == null || !drink.getTypeOrder().equals("order")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+		
+		if (!drink.getFoodOrDrink().equals("drink") || !drink.getItem().contains("coke")) {
+			throw new MundoException("Não tem bebida no pedido.");
+		}
+		
+		return new Order("item", drink.getItem(), "drink", drink.getCustPosition()-1, drink.getCustPlace());
+	}
+
+
 
 	private Customer getCustomer() {
 		for (int i = 0; i < 3; i++) {
