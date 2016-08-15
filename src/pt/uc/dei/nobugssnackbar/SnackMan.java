@@ -81,21 +81,21 @@ public abstract class SnackMan {
 	}
 	
 	public final void goToBoxOfFruits() throws Exception {
-		
+		core.goToBoxOfFruits();
 	}
 	
 	public final void goToJuiceMachine() throws Exception {
+		core.goToJuiceMachine();
+	}
+
+	public final Order pickUpFruits(Order order) throws Exception {
+		return core.pickUpFruits(order);
 		
 	}
 
-	public final Order pickUpFruits() throws Exception {
-		return null;
+	public final Order prepareAndPickUpJuice(Order order) throws Exception {
 		
-	}
-
-	public final Order prepareAndPickUpJuice() throws Exception {
-		
-		return null;
+		return core.prepareAndPickUpJuice(order);
 	}
 
 	public final void goToCoffeeMachine() throws Exception {

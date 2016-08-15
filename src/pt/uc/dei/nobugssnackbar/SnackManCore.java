@@ -36,6 +36,8 @@ public final class SnackManCore implements Runnable {
 	private Vertice vertCurPosition;
 	private Vertice displayNode;
 	private Vertice coolerNode;
+	private Vertice boxOfFruitsNode;
+	private Vertice juiceMachineNode;
 	public static int tempoEspera = 100;
 	
 	public SnackManCore(SnackMan snackMan) {
@@ -45,9 +47,12 @@ public final class SnackManCore implements Runnable {
 		createPath();
 		
 		this.counterPositions = new Vertice[]{graph.acharVertice("n21"), graph.acharVertice("n31"), graph.acharVertice("n79")};
+		
 		this.displayNode = graph.acharVertice("n11");
 		this.coolerNode = graph.acharVertice("n69");
 		
+		this.boxOfFruitsNode = graph.acharVertice("n106");
+		this.juiceMachineNode = graph.acharVertice("n127");
 	}
 
 	public void setInitialPosition(String position) {
@@ -307,6 +312,63 @@ public final class SnackManCore implements Runnable {
 		noBugsVisual.verifyObjectives("pickUpDrink", order);
 		
 		return order;
+	}
+
+	public void goToBoxOfFruits() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		this.animateSnackMan(boxOfFruitsNode);
+	}
+
+	public void goToJuiceMachine() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		this.animateSnackMan(juiceMachineNode);
+	}
+
+	public Order pickUpFruits(Order order) {
+		if (isParar())
+			throw new SnackManEncerradoException();
+		
+		if (!this.vertCurPosition.getNome().equals(boxOfFruitsNode.getNome()))
+			throw new MundoException("Não está em frente da caixa de frutas.");
+		
+		if (order == null || !order.getTypeOrder().equals("order")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+		
+		if (!order.getFoodOrDrink().equals("drink") || !order.getItem().contains("juiceoforange")) {
+			throw new MundoException("Não tem suco no pedido.");
+		}
+		
+		Order item = new Order("item", "$$orange", "drink", order.getCustPosition()-1, order.getCustPlace());
+		return item; 
+	}
+
+	public Order prepareAndPickUpJuice(Order order) {
+		
+		if (isParar())
+			throw new SnackManEncerradoException();
+		
+		// is he in front of the juice machine ?
+		if (!this.vertCurPosition.getNome().equals(juiceMachineNode.getNome()))
+			throw new MundoException("Não está em frente da máquina de sucos.");
+		
+		// does he have an item ? 
+		if (order == null || !order.getTypeOrder().equals("item")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+
+		// does the order have the food of this place ?
+		if (!order.getItem().equals("$$orange")) {
+			throw new MundoException("A máquina somente aceita frutas.");
+		}
+		
+		Order item = new Order("item", "$$juiceoforange", "drink", order.getCustPosition()-1, order.getCustPlace());		
+		return item; 
+		
 	}
 
 

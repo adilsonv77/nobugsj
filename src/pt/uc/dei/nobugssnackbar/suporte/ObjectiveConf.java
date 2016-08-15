@@ -94,7 +94,6 @@ public class ObjectiveConf {
 	public Objective generate() throws Exception {
 		
 		return mapObjectives.get(this.type).getConstructor(new Class[]{ObjectiveConf.class}).newInstance(this);
-		
 
 	}
 	

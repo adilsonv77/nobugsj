@@ -43,6 +43,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	private boolean parar;
 
+	private Image boxOfFruits;
+
+	private Image juiceMachine;
+
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		this.image = LoadImage.getInstance().getImage("imagens/fundo_new2.png");
 		this.snackManClass = snackManClass;
@@ -54,8 +58,13 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	private void createKitchenFurniture() throws Exception {
+		if (this.display != null)
+			return;
+		
 		this.display = LoadImage.getInstance().getImage("imagens/display.png");
 		this.cooler = LoadImage.getInstance().getImage("imagens/cooler.png");
+		this.boxOfFruits = LoadImage.getInstance().getImage("imagens/boxoffruits.png");
+		this.juiceMachine = LoadImage.getInstance().getImage("imagens/juicemachine.png");
 	}
 
 	private void createCustomers(List<CustomerDefinition> customersDef) {
@@ -91,10 +100,12 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		g.drawImage(this.image, 0, 0, null);
 		
 		g.drawImage(this.display, 200, 200, null);
-
+		g.drawImage(this.juiceMachine, 320, 190, null);
+		
 		this.snackman.paint(g);
 		
 		g.drawImage(this.cooler, 280, 360, null);
+		g.drawImage(this.boxOfFruits, 200, 408, null);
 		
 		try {
 			
