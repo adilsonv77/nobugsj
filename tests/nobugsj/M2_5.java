@@ -10,18 +10,27 @@ public class M2_5 extends SnackMan {
 	public void serve() throws Exception {
 
 		goToBarCounter(2);
-		Order comida = askForFood();
-		Order bebida = askForDrink();
 		
-		goToDisplay();
-		comida = pickUpHotDog(comida);
+		if (hasHunger()) {
+			
+			Order comida = askForFood();
+			goToDisplay();
+			comida = pickUpHotDog(comida);
+
+			goToBarCounter(2);
+			deliver(comida);
+
+		}
 		
-		goToCooler();
-		bebida = pickUpDrink(bebida);
-		
-		goToBarCounter(2);
-		deliver(comida);
-		deliver(bebida);
+		if (hasThirsty()) {
+			
+			Order bebida = askForDrink();
+			goToCooler();
+			bebida = pickUpDrink(bebida);
+			
+			goToBarCounter(2);
+			deliver(bebida);
+		}
 		
 	}
 

@@ -11,13 +11,12 @@ public class GoesToDisplay extends Objective {
 
 	@Override
 	public String getText() {
-		return null;
+		return "Vá para o mostrador quente.";
 	}
 
 	@Override
 	protected boolean doVerifyObjective(Object options) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

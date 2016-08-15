@@ -301,4 +301,24 @@ public class Customer
 		return this.orders.get(this.curOrder).getDrinks().size();
 	}
 
+	public int askHowMuchInFoodsIfSell() {
+		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		
+		int total = 0;
+		for (OrderItem f:foods)
+			total += f.getPrice();
+		
+		return total;
+	}
+
+	public int askHowMuchInDrinksIfSell() {
+		List<OrderItem> drinks = this.orders.get(this.curOrder).getDrinks();
+		
+		int total = 0;
+		for (OrderItem f:drinks)
+			total += f.getPrice();
+		
+		return total;
+	}
+
 }

@@ -11,13 +11,12 @@ public class GoesToCooler extends Objective {
 
 	@Override
 	public String getText() {
-		return null;
+		return "Vá para o refrigerador.";
 	}
 
 	@Override
 	protected boolean doVerifyObjective(Object options) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

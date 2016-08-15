@@ -6,6 +6,7 @@ import java.util.Map;
 import pt.uc.dei.nobugssnackbar.goals.AskForDrink;
 import pt.uc.dei.nobugssnackbar.goals.AskForFood;
 import pt.uc.dei.nobugssnackbar.goals.AskHasHunger;
+import pt.uc.dei.nobugssnackbar.goals.AskHasThirsty;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyDrinks;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyFoods;
 import pt.uc.dei.nobugssnackbar.goals.Deliver;
@@ -15,6 +16,7 @@ import pt.uc.dei.nobugssnackbar.goals.GoesToDisplay;
 import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.goals.PickUpDrink;
 import pt.uc.dei.nobugssnackbar.goals.PickUpFood;
+import pt.uc.dei.nobugssnackbar.goals.Talk;
 
 public class ObjectiveConf {
 
@@ -25,6 +27,7 @@ public class ObjectiveConf {
 	private String value;
 	private boolean fullText;
 	private String text;
+	private String condition;
 	
 	public int getPos() {
 		return pos;
@@ -75,6 +78,14 @@ public class ObjectiveConf {
 		this.text = text;
 	}
 
+	public String getCondition() {
+		return condition;
+	}
+	
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+	
 	@Override
 	public String toString() {
 		return type + " " + pos + " " + place + " " + fullText + " " + text + " " + value;
@@ -93,13 +104,19 @@ public class ObjectiveConf {
 		mapObjectives.put("goesTo", GoesToCounter.class);
 		mapObjectives.put("goesToDisplay", GoesToDisplay.class);
 		mapObjectives.put("goesToCooler", GoesToCooler.class);
+
 		mapObjectives.put("askForFood", AskForFood.class);
 		mapObjectives.put("pickUpFood", PickUpFood.class);
 		mapObjectives.put("askHasHunger", AskHasHunger.class);
+		mapObjectives.put("askWantHowManyFoods", AskWantHowManyFoods.class);
+		
 		mapObjectives.put("askForDrink", AskForDrink.class);
 		mapObjectives.put("pickUpDrink", PickUpDrink.class);
-		mapObjectives.put("deliver", Deliver.class);
-		mapObjectives.put("askWantHowManyFoods", AskWantHowManyFoods.class);
+		mapObjectives.put("askHasThirsty", AskHasThirsty.class);
 		mapObjectives.put("askWantHowManyDrinks", AskWantHowManyDrinks.class);
+		
+		mapObjectives.put("deliver", Deliver.class);
+		
+		mapObjectives.put("talk", Talk.class);
 	}
 }

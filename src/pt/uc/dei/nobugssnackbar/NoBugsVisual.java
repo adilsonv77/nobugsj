@@ -41,6 +41,9 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		this.image = LoadImage.getInstance().getImage("imagens/fundo_new2.png");
 		this.snackManClass = snackManClass;
+		
+		CustomerManager.setCustomers(this.customers);
+		
 		setPreferredSize(new Dimension(360, 440));
 		setExercicio(exercicio);
 	}

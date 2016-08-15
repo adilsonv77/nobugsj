@@ -21,7 +21,7 @@ import pt.uc.dei.nobugssnackbar.suporte.FinishedRunListener;
  *
  */
 
-public class SnackManCore implements Runnable {
+public final class SnackManCore implements Runnable {
 
 	private boolean podeParar;
 	private List<FinishedRunListener> fimListeners = new ArrayList<>();
@@ -140,6 +140,8 @@ public class SnackManCore implements Runnable {
 			throw new SnackManEncerradoException();
 
 		this.animateSnackMan(displayNode);
+		
+		noBugsVisual.verifyObjectives("goesToDisplay", null);
 	}
 
 	public void goToCooler() throws Exception {
@@ -147,6 +149,8 @@ public class SnackManCore implements Runnable {
 			throw new SnackManEncerradoException();
 
 		this.animateSnackMan(coolerNode);
+
+		noBugsVisual.verifyObjectives("goesToCooler", null);
 	}
 
 	public void talk(Object text) throws Exception {
@@ -155,6 +159,8 @@ public class SnackManCore implements Runnable {
 
 		noBugsVisual.addConsole(text);
 		
+		noBugsVisual.verifyObjectives("talk", text);
+		noBugsVisual.verifyObjectives("countTalk", null);
 	}
 	
 	public Order askForFood() {
@@ -187,7 +193,9 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		return found.hasHunger();
+		boolean hunger = found.hasHunger();
+		noBugsVisual.verifyObjectives("askHasHunger", found);
+		return hunger;
 	}
 
 	public boolean isThereACustomer() {
@@ -275,7 +283,9 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		return found.hasThirsty();
+		boolean thirsty = found.hasThirsty();
+		noBugsVisual.verifyObjectives("askHasThirsty", found);
+		return thirsty;
 	}
 
 	public Order pickUpDrink(Order drink) {
@@ -320,7 +330,9 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		return found.askWantHowManyFoods();
+		int qtos = found.askWantHowManyFoods();
+		noBugsVisual.verifyObjectives("askWantHowManyFoods", found);
+		return qtos;
 	}
 
 	public int askWantHowManyDrinks() {
@@ -333,7 +345,9 @@ public class SnackManCore implements Runnable {
 			throw new MundoException("Não existe cliente nessa posição.");
 		}
 		
-		return found.askWantHowManyDrinks();
+		int qtos = found.askWantHowManyDrinks();
+		noBugsVisual.verifyObjectives("askWantHowManyDrinks", found);
+		return qtos;
 	}
 
 	private void animateSnackMan(Vertice dest) throws Exception {
