@@ -1,6 +1,8 @@
 package pt.uc.dei.nobugssnackbar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,6 +27,7 @@ import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.ExercicioFactory;
 import pt.uc.dei.nobugssnackbar.suporte.JCheckList;
+import pt.uc.dei.nobugssnackbar.suporte.TestsCounter;
 
 /**
  * 
@@ -60,7 +64,7 @@ public class MundoVisual extends JFrame {
 		initComponents(exercicio);
 	}
 
-	private void initComponents(Exercicio exercicio) {
+	private void initComponents(Exercicio exercicio) throws Exception {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		String title = "NoBugsJ v " + SnackMan.VERSAO; 
@@ -97,6 +101,7 @@ public class MundoVisual extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+
 	}
 
 	private JPanel getEnunciado() {
@@ -104,15 +109,21 @@ public class MundoVisual extends JFrame {
 		return jp;
 	}
 
-	private JPanel getControle(final Exercicio exercicio) {
+	private JPanel getControle(final Exercicio exercicio) throws Exception {
 		JPanel jconsole = new JPanel(new BorderLayout());
+		
 		JPanel jp = new JPanel(new GridLayout(2, 1));
+		jp.setPreferredSize(new Dimension(265, 72));
+		jconsole.add(jp, "West");
+		
+		jpTests = new TestsCounter(exercicio.getTests());
+		jconsole.add(jpTests, "East");
+
 		JPanel jpBotoes = new JPanel();
 		jp.add(jpBotoes);
 
 		jbExecutar = new JButton("Run");
 		jpBotoes.add(jbExecutar);
-		jconsole.add(jp, "West");
 		ActionListener action = new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -193,8 +204,14 @@ public class MundoVisual extends JFrame {
 	private void novaSequencia(Exercicio exercicio) {
 		atributos.clear();
 		objetivos.uncheckAllItems();
+		jpTests.resetCurRun();
 	}
 
+	public void fimExecucaoIntermediaria(int curRun) {
+		objetivos.uncheckAllItems();
+		jpTests.addCurRun();
+	}
+	
 	private void executar(Exercicio exercicio) {
 		if (executou)
 			try {
@@ -212,6 +229,7 @@ public class MundoVisual extends JFrame {
 	}
 
 	public void fimExecucao() {
+		jpTests.addCurRun();
 		jbExecutar.setEnabled(true);
 		jbParar.setEnabled(false);
 		jbRenovar.setEnabled(true);
@@ -233,7 +251,7 @@ public class MundoVisual extends JFrame {
 
 	public static void iniciar(String nomeArquivo, final Class<? extends SnackMan> snackManClass) {
 		try {
-			
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			final Exercicio exercicio = ExercicioFactory.create(nomeArquivo);
 			EventQueue.invokeLater(new Runnable() {
 
@@ -270,6 +288,6 @@ public class MundoVisual extends JFrame {
 	private JButton jbRenovar;
 	private NoBugsVisual mundoNoBugs;
 	private JCheckList objetivos;
-	
+	private TestsCounter jpTests;
 
 }

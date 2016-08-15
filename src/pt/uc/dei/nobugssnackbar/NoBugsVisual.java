@@ -36,7 +36,12 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	private Class<? extends SnackMan> snackManClass;
 
 	private List<Objective> objectives = new ArrayList<>();
-	
+
+	private int runs = 0;
+
+	private Exercicio exercicio;
+
+	private boolean parar;
 
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		this.image = LoadImage.getInstance().getImage("imagens/fundo_new2.png");
@@ -101,6 +106,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public void parar() {
+		this.parar = true;
 		this.snackman.parar();
 		if (this.thread != null) {
 			this.thread.interrupt();
@@ -111,6 +117,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public void setExercicio(Exercicio exercicio) throws Exception {
+		this.exercicio = exercicio;
+		
 		createKitchenFurniture();
 		createCooker(snackManClass, exercicio.getCooker());
 		createCustomers(exercicio.getCustomers());
@@ -127,6 +135,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public void reiniciar() {
+		this.runs = 0;
+		this.parar = false;
 		repaint();
 		
 	}
@@ -140,6 +150,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public void executar() {
+		this.runs++;
 		this.thread = new Thread(this.snackman);
 		thread.start();
 		
@@ -155,6 +166,31 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			this.thread.interrupt();
 			this.thread = null;
 		}
+		
+		if (!parar && this.runs < this.exercicio.getTests()) {
+			// next configuration
+			
+			for (Customer cust:customers)
+				cust.nextOrder();
+			
+			// run the cooker
+			try {
+				
+				createCooker(snackManClass, exercicio.getCooker());
+				this.mundoVisual.fimExecucaoIntermediaria(this.runs);
+								
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.mundoVisual.fimExecucao();
+				return;
+			}
+			
+			repaint();
+			executar();
+			
+			return;
+		}
+		
 		this.mundoVisual.fimExecucao();
 	}
 

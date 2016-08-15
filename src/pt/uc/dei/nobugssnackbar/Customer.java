@@ -69,6 +69,10 @@ public class Customer
 		this.curY = this.initialY;
     }
 	
+	public void nextOrder() {
+		this.curOrder++;
+	}
+	
 	public int getPos() { return this.index + 1; }
 	
 	public boolean isThereIsACustomer() {

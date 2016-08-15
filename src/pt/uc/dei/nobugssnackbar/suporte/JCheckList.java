@@ -81,7 +81,7 @@ public class JCheckList extends JPanel {
 	        if (c instanceof JLabel) {
 	            JLabel l = (JLabel)c;
 	            CheckBoxItem cbi = (CheckBoxItem) value;
-	            String s = (cbi.checked ? checked : unchecked) + cbi.title;
+	            String s = (cbi.checked ? checked : unchecked) + " " + cbi.title;
 	            l.setText(s);
 	        }
 
