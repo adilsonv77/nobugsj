@@ -1,11 +1,7 @@
 package pt.uc.dei.nobugssnackbar.goals;
 
-import java.io.FileReader;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
 import pt.uc.dei.nobugssnackbar.suporte.ObjectiveConf;
+import pt.uc.dei.nobugssnackbar.suporte.Scripts;
 
 public class Talk extends Objective {
 
@@ -31,10 +27,16 @@ public class Talk extends Objective {
 					*/
 			}
 			
-			value = js.eval(conf.getValue());
-			if (conf.getType() != null)
-				if (conf.getType().equals("functionCompare"))
+			value = Scripts.eval(conf.getValue());
+			if (conf.getTypeConv() != null) {
+				if (conf.getTypeConv().equals("functionCompare"))
 					return Boolean.parseBoolean(value.toString());
+				if (conf.getTypeConv().equals("int")) {
+					value = Math.round((double) value);
+				}
+			}
+			
+			
 			/*
 				if (Array.isArray(options.data) && objective.type === "array") {
 					if (value.indexOf("##") > -1) {
@@ -63,15 +65,4 @@ public class Talk extends Objective {
 		return (value + "").equals(options.toString());
 	}
 
-	private static ScriptEngine js;
-	
-	static {
-		js = (new ScriptEngineManager()).getEngineByName("js");
-		try {
-			js.eval(new FileReader("customermanager.js"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 }

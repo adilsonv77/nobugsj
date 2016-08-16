@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -38,6 +39,8 @@ public class ExercicioFactory
         d.addBeanPropertySetter("*/cooker", "cooker");
         d.addBeanPropertySetter("*/tests", "tests");
         
+        addRuleTestVars(d);
+        
         addRuleCustomer(d);
         d.addSetNext("*/customers/customer", "addCustomer");
         
@@ -67,6 +70,17 @@ public class ExercicioFactory
         return decrypted;
     }
 	
+	private static void addRuleTestVars(Digester d) {
+		
+		d.addObjectCreate("*/testsvars/test", HashMap.class);
+    	d.addCallMethod("*/testsvars/test/var", "put", 2);
+    	d.addCallParam( "*/testsvars/test/var", 0, "name" );
+    	d.addCallParam( "*/testsvars/test/var", 1 );
+    	
+    	d.addSetNext("*/testsvars/test", "addTest");
+    	
+	}
+
     private static void addRuleCustomer(Digester d) {
 
     	d.addObjectCreate("*/customers/customer", CustomerDefinition.class);

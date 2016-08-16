@@ -18,6 +18,8 @@ import pt.uc.dei.nobugssnackbar.suporte.ObjectiveConf;
 
 public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	
+	public static NoBugsVisual instance = null;
+	
 	private static final long serialVersionUID = 1L;
 
 	private Image image;
@@ -47,7 +49,11 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	private Image juiceMachine;
 
+	private Image iceCreamMachine;
+
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
+		instance = this;
+		
 		this.image = LoadImage.getInstance().getImage("imagens/fundo_new2.png");
 		this.snackManClass = snackManClass;
 		
@@ -65,6 +71,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		this.cooler = LoadImage.getInstance().getImage("imagens/cooler.png");
 		this.boxOfFruits = LoadImage.getInstance().getImage("imagens/boxoffruits.png");
 		this.juiceMachine = LoadImage.getInstance().getImage("imagens/juicemachine.png");
+		this.iceCreamMachine = LoadImage.getInstance().getImage("imagens/icecreammachine.png");
 	}
 
 	private void createCustomers(List<CustomerDefinition> customersDef) {
@@ -101,6 +108,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		
 		g.drawImage(this.display, 200, 200, null);
 		g.drawImage(this.juiceMachine, 320, 190, null);
+		g.drawImage(this.iceCreamMachine, 160, 160, null);
 		
 		this.snackman.paint(g);
 		
@@ -178,7 +186,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			this.thread = null;
 		}
 		
-		if (!parar && this.runs < this.exercicio.getTests()) {
+		if (!parar && allGoalsAchieved() && this.runs < this.exercicio.getTests()) {
 			// next configuration
 			
 			for (Customer cust:customers)
@@ -203,6 +211,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		}
 		
 		this.mundoVisual.fimExecucao();
+	}
+
+	private boolean allGoalsAchieved() {
+		return this.mundoVisual.allGoalsAchieved();
 	}
 
 	public void changeSnackManPosition(Vertice vertice) {
@@ -238,6 +250,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			}
 		}
 		
+	}
+	
+	public String readVariableTest(String varName) {
+		return this.exercicio.readVariableTest(this.runs-1, varName);
 	}
 
 }

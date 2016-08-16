@@ -70,6 +70,8 @@ public class Customer
     }
 	
 	public void nextOrder() {
+		this.dUnfulfilled = 0;
+		this.fUnfulfilled = 0;
 		this.curOrder++;
 	}
 	
@@ -323,6 +325,34 @@ public class Customer
 			total += f.getPrice();
 		
 		return total;
+	}
+
+	public int askWantHowManyIceCream() {
+		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+
+		int c = 0;
+		for (int i=0; i<foods.size(); i++) {
+			OrderItem food = foods.get(i);
+			if (food.getType().startsWith("icecreamof"))
+				c++;
+			
+		}
+		
+		return c;
+	}
+
+	public Order askForIceCream() {
+		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		
+    	if (this.fUnfulfilled >= foods.size())
+    		return null;
+
+    	for (OrderItem oi:foods)
+    		if (!oi.isDelivered() && oi.getType().startsWith("icecreamof")) {
+    	    	return new Order("order", "$$" + oi.getType(), "food", this.index, this.place);
+    		}
+    	
+    	return null;
 	}
 
 }

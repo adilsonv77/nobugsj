@@ -1,7 +1,6 @@
 package pt.uc.dei.nobugssnackbar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -212,6 +211,10 @@ public class MundoVisual extends JFrame {
 		jpTests.addCurRun();
 	}
 	
+	public boolean allGoalsAchieved() {
+		return objetivos.isAllGoalsAchieved();
+	}
+
 	private void executar(Exercicio exercicio) {
 		if (executou)
 			try {
@@ -229,7 +232,8 @@ public class MundoVisual extends JFrame {
 	}
 
 	public void fimExecucao() {
-		jpTests.addCurRun();
+		if (allGoalsAchieved())
+			jpTests.addCurRun();
 		jbExecutar.setEnabled(true);
 		jbParar.setEnabled(false);
 		jbRenovar.setEnabled(true);

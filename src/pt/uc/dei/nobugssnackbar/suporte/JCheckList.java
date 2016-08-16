@@ -89,4 +89,13 @@ public class JCheckList extends JPanel {
 	    }
 	}
 
+	public boolean isAllGoalsAchieved() {
+		for (int i = 0; i<listModel.size(); i++)
+			
+			if (!listModel.getElementAt(i).checked)
+				return false;
+			
+		return true;
+	}
+
 }

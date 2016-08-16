@@ -5,11 +5,14 @@ import java.util.Map;
 
 import pt.uc.dei.nobugssnackbar.goals.AskForDrink;
 import pt.uc.dei.nobugssnackbar.goals.AskForFood;
+import pt.uc.dei.nobugssnackbar.goals.AskForIceCream;
 import pt.uc.dei.nobugssnackbar.goals.AskHasHunger;
 import pt.uc.dei.nobugssnackbar.goals.AskHasThirsty;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyDrinks;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyFoods;
+import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyIceCream;
 import pt.uc.dei.nobugssnackbar.goals.Deliver;
+import pt.uc.dei.nobugssnackbar.goals.DeliverGifts;
 import pt.uc.dei.nobugssnackbar.goals.GoesToCooler;
 import pt.uc.dei.nobugssnackbar.goals.GoesToCounter;
 import pt.uc.dei.nobugssnackbar.goals.GoesToDisplay;
@@ -28,6 +31,8 @@ public class ObjectiveConf {
 	private boolean fullText;
 	private String text;
 	private String condition;
+	private String gift;
+	private String typeConv;
 	
 	public int getPos() {
 		return pos;
@@ -85,6 +90,14 @@ public class ObjectiveConf {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+
+	public String getGift() {
+		return gift;
+	}
+	
+	public void setGift(String gift) {
+		this.gift = gift;
+	}
 	
 	@Override
 	public String toString() {
@@ -97,6 +110,14 @@ public class ObjectiveConf {
 
 	}
 	
+	public String getTypeConv() {
+		return typeConv;
+	}
+
+	public void setTypeConv(String typeConv) {
+		this.typeConv = typeConv;
+	}
+
 	static {
 		mapObjectives = new HashMap<>();
 		
@@ -115,7 +136,12 @@ public class ObjectiveConf {
 		mapObjectives.put("askWantHowManyDrinks", AskWantHowManyDrinks.class);
 		
 		mapObjectives.put("deliver", Deliver.class);
+		mapObjectives.put("deliverGifts", DeliverGifts.class);
 		
 		mapObjectives.put("talk", Talk.class);
+		
+		mapObjectives.put("askForIceCream", AskForIceCream.class);
+		mapObjectives.put("askWantHowManyIceCream", AskWantHowManyIceCream.class);
+
 	}
 }

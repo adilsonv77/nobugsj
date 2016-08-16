@@ -112,22 +112,22 @@ public abstract class SnackMan {
 	}
 
 	public final void goToIceCreamMachine() throws Exception {
-		
+		core.goToIceCreamMachine();
 	}
 
-	public final Order pickUpIceCream() throws Exception {
+	public final Order pickUpIceCream(Order order) throws Exception {
 		
-		return null;
+		return core.pickUpIceCream(order);
 	}
 
 	public final int askWantHowManyIceCream() throws Exception {
 		
-		return 0;
+		return core.askWantHowManyIceCream();
 	}
 
 	public final Order askForIceCream() throws Exception {
 		
-		return null;
+		return core.askForIceCream();
 	}
 
 	

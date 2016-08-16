@@ -38,6 +38,7 @@ public final class SnackManCore implements Runnable {
 	private Vertice coolerNode;
 	private Vertice boxOfFruitsNode;
 	private Vertice juiceMachineNode;
+	private Vertice iceCreamMachineNode;
 	public static int tempoEspera = 100;
 	
 	public SnackManCore(SnackMan snackMan) {
@@ -53,6 +54,8 @@ public final class SnackManCore implements Runnable {
 		
 		this.boxOfFruitsNode = graph.acharVertice("n106");
 		this.juiceMachineNode = graph.acharVertice("n127");
+		
+		this.iceCreamMachineNode = graph.acharVertice("nIceCream");
 	}
 
 	public void setInitialPosition(String position) {
@@ -371,17 +374,6 @@ public final class SnackManCore implements Runnable {
 		
 	}
 
-
-
-	private Customer getCustomer() {
-		for (int i = 0; i < 3; i++) {
-			if (vertCurPosition.getNome().equals(counterPositions[i].getNome()))
-				return noBugsVisual.getCustomerCounter(i+1);
-		}
-		
-		throw new MundoException("Não está próximo de nenhum cliente");
-	}
-
 	public int askWantHowManyFoods() {
 		if (isParar())
 			throw new SnackManEncerradoException();
@@ -410,6 +402,82 @@ public final class SnackManCore implements Runnable {
 		int qtos = found.askWantHowManyDrinks();
 		noBugsVisual.verifyObjectives("askWantHowManyDrinks", found);
 		return qtos;
+	}
+
+	public void goToIceCreamMachine() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		this.animateSnackMan(iceCreamMachineNode);
+	}
+
+	public int askWantHowManyIceCream() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		int qtd = found.askWantHowManyIceCream();
+		
+		noBugsVisual.verifyObjectives("askWantHowManyIceCream", found);
+		
+		return qtd;
+	}
+
+	public Order askForIceCream() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		Order iceCream = found.askForIceCream();
+		if (iceCream == null) {
+			throw new MundoException("O cliente não tem fome de sorvete.");
+		}
+		
+		noBugsVisual.verifyObjectives("askForIceCream", found);
+		
+		return iceCream;
+	}
+
+	public Order pickUpIceCream(Order order) {
+		
+		if (isParar())
+			throw new SnackManEncerradoException();
+		
+		// is he in front of the juice machine ?
+		if (!this.vertCurPosition.getNome().equals(iceCreamMachineNode.getNome()))
+			throw new MundoException("Não está em frente da máquina de sorvetes.");
+		
+		// does he have an item ? 
+		if (order == null || !order.getTypeOrder().equals("order")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+
+		// does the order have the food of this place ?
+		if (!order.getFoodOrDrink().equals("food") || !order.getItem().contains("icecreamof")) {
+			throw new MundoException("Não tem sorvete no pedido.");
+		}
+		
+		Order item = new Order("item", order.getItem(), "food", order.getCustPosition()-1, order.getCustPlace());		
+		return item; 
+	}
+
+	private Customer getCustomer() {
+		for (int i = 0; i < 3; i++) {
+			if (vertCurPosition.getNome().equals(counterPositions[i].getNome()))
+				return noBugsVisual.getCustomerCounter(i+1);
+		}
+		
+		throw new MundoException("Não está próximo de nenhum cliente");
 	}
 
 	private void animateSnackMan(Vertice dest) throws Exception {
