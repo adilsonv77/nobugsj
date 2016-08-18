@@ -8,6 +8,7 @@ public class CustomerDefinition {
 	private String id;
 	private String init;
 	private String dest;
+	private int pay;
 	
 	private List<OrderConf> orders = new ArrayList<>();
 	
@@ -36,6 +37,14 @@ public class CustomerDefinition {
 	
 	public List<OrderConf> getOrders() {
 		return orders;
+	}
+	
+	public int getPay() {
+		return pay;
+	}
+	
+	public void setPay(int pay) {
+		this.pay = pay;
 	}
 	
 	@Override

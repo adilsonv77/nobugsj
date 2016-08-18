@@ -18,6 +18,36 @@ public final class CustomerManager {
 		return total;
 	}
 
+	public static int totalOfDrink() {
+		
+		if (_customers == null)
+			return 0;
+		
+		int total = 0;
+		for (Customer c: _customers) {
+			total += c.askWantHowManyDrinks();	
+		}
+		return total;
+	}
+	
+	public static int totalOfMoneyGave() {
+		
+		if (_customers == null)
+			return 0;
+	
+		int ret = 0;
+		for (Customer c: _customers) {
+			if (c.isPaid())
+				ret += c.getAmountPaid();
+			else
+				if (c.isThereIsACustomer())
+					ret -= 100; // avoid cheating
+			
+		}
+		
+		return ret;
+	}
+	
 	static void setCustomers(List<Customer> customers) {
 
 		_customers = customers;

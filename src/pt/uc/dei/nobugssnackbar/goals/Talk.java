@@ -34,7 +34,9 @@ public class Talk extends Objective {
 				if (conf.getTypeConv().equals("int")) {
 					value = Math.round((double) value);
 				}
-			}
+			} else
+				if (value.getClass() != Integer.class)
+					value = Math.round((double) value);
 			
 			
 			/*

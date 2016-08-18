@@ -51,6 +51,12 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	private Image iceCreamMachine;
 
+	private Image coffeeMachine;
+
+	private int idxCoffeeMachine;
+
+	private int tempoEspera;
+
 	public NoBugsVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		instance = this;
 		
@@ -72,23 +78,31 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		this.boxOfFruits = LoadImage.getInstance().getImage("imagens/boxoffruits.png");
 		this.juiceMachine = LoadImage.getInstance().getImage("imagens/juicemachine.png");
 		this.iceCreamMachine = LoadImage.getInstance().getImage("imagens/icecreammachine.png");
+		
+		this.coffeeMachine = LoadImage.getInstance().getImage("imagens/coffeemachine.png");
+		this.idxCoffeeMachine = 0;
 	}
 
 	private void createCustomers(List<CustomerDefinition> customersDef) {
 
 		customers.clear();
 
-		int idx = 0, idxC = 1;
-		while (idx < customersDef.size()) {
-			CustomerDefinition cust = customersDef.get(idx);
-			if (cust.getDest().startsWith("counter") && Integer.parseInt(cust.getDest().substring(7, 8)) != idxC) {
-				customers.add(new Customer(null, idxC-1));
-				idxC = Integer.parseInt(cust.getDest().substring(7, 8));
-			}
-			customers.add(new Customer(cust, idxC-1));
-			idx++; idxC++;
+		int idx = 0;
+		for (int i = 1; i <= 3; i++) {
 			
+			if (idx < customersDef.size()) {
+				CustomerDefinition cust = customersDef.get(idx);
+				if (Integer.parseInt(cust.getDest().substring(7, 8)) != i) 
+					customers.add(new Customer(null, i-1));
+				else {
+					customers.add(new Customer(cust, i-1));
+					idx++;
+				}
+			} else
+				customers.add(new Customer(null, i-1));
 		}
+		
+		
 		
 	}
 
@@ -110,6 +124,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		g.drawImage(this.juiceMachine, 320, 190, null);
 		g.drawImage(this.iceCreamMachine, 160, 160, null);
 		
+		g.drawImage(this.coffeeMachine, 130, 190, 130+30, 190+40, idxCoffeeMachine*30, 0, (idxCoffeeMachine*30)+30, 40, null);
+		
 		this.snackman.paint(g);
 		
 		g.drawImage(this.cooler, 280, 360, null);
@@ -119,11 +135,26 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			
 			for (Customer c:customers)
 				c.paint(g);
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	public void nextCoffeeMachineImg() {
+		idxCoffeeMachine = (idxCoffeeMachine+1)%3;
+		repaint();
+	}
+	
+	public void resetCoffeeMachineImg() {
+		idxCoffeeMachine = 0;
+		repaint();
+	}
+	
+	public int getIdxCoffeeMachine() {
+		return idxCoffeeMachine;
+	}
+	
 	public void parar() {
 		this.parar = true;
 		this.snackman.parar();
@@ -156,6 +187,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	public void reiniciar() {
 		this.runs = 0;
 		this.parar = false;
+		this.idxCoffeeMachine = 0;
 		repaint();
 		
 	}
@@ -165,6 +197,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public void setTempoEspera(int value) {
+		this.tempoEspera = value;
 		snackman.setTempoEspera(value);
 	}
 
@@ -186,6 +219,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			this.thread = null;
 		}
 		
+		
+		verifyObjectivesForAllCustomers("deliver"); 
+		verifyObjectivesForAllCustomers("customDeliver"); 
+		
 		if (!parar && allGoalsAchieved() && this.runs < this.exercicio.getTests()) {
 			// next configuration
 			
@@ -195,7 +232,9 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 			// run the cooker
 			try {
 				
+				this.idxCoffeeMachine = 0;
 				createCooker(snackManClass, exercicio.getCooker());
+				this.snackman.setTempoEspera(tempoEspera);
 				this.mundoVisual.fimExecucaoIntermediaria(this.runs);
 								
 			} catch (Exception e) {
@@ -213,6 +252,16 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		this.mundoVisual.fimExecucao();
 	}
 
+	private void verifyObjectivesForAllCustomers(String key) {
+
+		for(Customer cust:customers) {
+			if (cust.getPlace() != null)
+				verifyObjectives(key, cust);
+		}
+		
+	}
+
+		
 	private boolean allGoalsAchieved() {
 		return this.mundoVisual.allGoalsAchieved();
 	}

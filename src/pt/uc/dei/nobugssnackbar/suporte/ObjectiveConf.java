@@ -11,6 +11,8 @@ import pt.uc.dei.nobugssnackbar.goals.AskHasThirsty;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyDrinks;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyFoods;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyIceCream;
+import pt.uc.dei.nobugssnackbar.goals.CashIn;
+import pt.uc.dei.nobugssnackbar.goals.CustomDeliver;
 import pt.uc.dei.nobugssnackbar.goals.Deliver;
 import pt.uc.dei.nobugssnackbar.goals.DeliverGifts;
 import pt.uc.dei.nobugssnackbar.goals.GoesToCooler;
@@ -135,13 +137,15 @@ public class ObjectiveConf {
 		mapObjectives.put("askHasThirsty", AskHasThirsty.class);
 		mapObjectives.put("askWantHowManyDrinks", AskWantHowManyDrinks.class);
 		
-		mapObjectives.put("deliver", Deliver.class);
-		mapObjectives.put("deliverGifts", DeliverGifts.class);
-		
-		mapObjectives.put("talk", Talk.class);
-		
 		mapObjectives.put("askForIceCream", AskForIceCream.class);
 		mapObjectives.put("askWantHowManyIceCream", AskWantHowManyIceCream.class);
 
+		mapObjectives.put("deliver", Deliver.class);
+		mapObjectives.put("deliverGifts", DeliverGifts.class);
+		mapObjectives.put("customDeliver", CustomDeliver.class);
+		
+		mapObjectives.put("talk", Talk.class);
+		
+		mapObjectives.put("cashIn", CashIn.class);
 	}
 }

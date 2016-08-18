@@ -39,6 +39,7 @@ public final class SnackManCore implements Runnable {
 	private Vertice boxOfFruitsNode;
 	private Vertice juiceMachineNode;
 	private Vertice iceCreamMachineNode;
+	private Vertice coffeeMachineNode;
 	public static int tempoEspera = 100;
 	
 	public SnackManCore(SnackMan snackMan) {
@@ -56,6 +57,8 @@ public final class SnackManCore implements Runnable {
 		this.juiceMachineNode = graph.acharVertice("n127");
 		
 		this.iceCreamMachineNode = graph.acharVertice("nIceCream");
+
+		this.coffeeMachineNode = graph.acharVertice("nCoffee");
 	}
 
 	public void setInitialPosition(String position) {
@@ -255,6 +258,8 @@ public final class SnackManCore implements Runnable {
 		
 		if (amount == 1) {
 			noBugsVisual.verifyObjectives("deliver", found);
+			noBugsVisual.verifyObjectives("customDeliver", found);
+			noBugsVisual.verifyObjectives("deliverGifts", found);
 		}
 		
 		noBugsVisual.repaint();
@@ -469,6 +474,74 @@ public final class SnackManCore implements Runnable {
 		
 		Order item = new Order("item", order.getItem(), "food", order.getCustPosition()-1, order.getCustPlace());		
 		return item; 
+	}
+
+	public void goToCoffeeMachine() throws Exception {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		this.animateSnackMan(coffeeMachineNode);
+	}
+
+	public void prepareCoffee() {
+		if (isParar())
+			throw new SnackManEncerradoException();
+		
+		if (!this.vertCurPosition.getNome().equals(coffeeMachineNode.getNome()))
+			throw new MundoException("Não está em frente da máquina de café.");
+		
+		if (this.noBugsVisual.getIdxCoffeeMachine() > 0) {
+			throw new MundoException("Ainda tem café na máquina.");
+		}
+		
+		this.noBugsVisual.nextCoffeeMachineImg();
+	}
+
+	public Order pickUpCoffee(Order order) {
+		if (isParar())
+			throw new SnackManEncerradoException();
+
+		if (!this.vertCurPosition.getNome().equals(coffeeMachineNode.getNome()))
+			throw new MundoException("Não está em frente da máquina de café.");
+	
+		if (this.noBugsVisual.getIdxCoffeeMachine() == 0) {
+			throw new MundoException("Não tem café preparado na máquina.");
+		}
+		
+		// does he have an item ? 
+		if (order == null || !order.getTypeOrder().equals("order")) {
+			throw new MundoException("Esqueceu de anotar o pedido.");
+		}
+
+		// does the order have the food of this place ?
+		if (!order.getFoodOrDrink().equals("drink") || !order.getItem().contains("coffee")) {
+			throw new MundoException("Não tem café no pedido.");
+		}
+		
+		noBugsVisual.nextCoffeeMachineImg();
+		
+		Order item = new Order("item", "$$coffee", "drink", order.getCustPosition()-1, order.getCustPlace());
+		return item; 
+	}
+	
+	public int cashIn(int orderValue) {
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		
+		int ret = found.cashIn(orderValue);
+		
+		noBugsVisual.verifyObjectives("cashIn", found);
+
+		return ret;
+	}
+
+	public void giveChange(int howMany, MoneyType moneyType) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private Customer getCustomer() {
@@ -938,9 +1011,10 @@ public final class SnackManCore implements Runnable {
 		map.put("n8", new Point(242, 272));
 		map.put("n9", new Point(238, 260));
 		map.put("n10", new Point(234, 248));
-		map.put("n11", new Point(230, 240));
-		map.put("n12", new Point(218, 243));
-		map.put("n13", new Point(206, 246));
+		map.put("n11", new Point(230, 248));
+		
+		map.put("n12", new Point(218, 248));
+		map.put("n13", new Point(206, 248));
 		map.put("n14", new Point(194, 249));
 		map.put("n15", new Point(182, 252));
 		map.put("n16", new Point(170, 255));
@@ -1054,7 +1128,8 @@ public final class SnackManCore implements Runnable {
 		map.put("n124", new Point(264, 432));
 		map.put("n125", new Point(272, 434));
 		map.put("n126", new Point(280, 436));
-		map.put("n127", new Point(290, 245));
+		map.put("n127", new Point(290, 248));
+		
 		map.put("n128", new Point(287, 256));
 		map.put("n129", new Point(284, 267));
 		map.put("n130", new Point(281, 278));
@@ -1065,16 +1140,16 @@ public final class SnackManCore implements Runnable {
 		map.put("n135", new Point(266, 333));
 		map.put("n136", new Point(263, 344));
 		map.put("n137", new Point(260, 355));
-		map.put("n138", new Point(293, 240));
-		map.put("n139", new Point(286, 240));
-		map.put("n140", new Point(279, 240));
-		map.put("n141", new Point(272, 240));
-		map.put("n142", new Point(265, 240));
-		map.put("n143", new Point(258, 240));
-		map.put("n144", new Point(251, 240));
-		map.put("n145", new Point(244, 240));
-		map.put("n146", new Point(237, 240));
-		map.put("n147", new Point(230, 240));
+		map.put("n138", new Point(293, 248));
+		map.put("n139", new Point(286, 248));
+		map.put("n140", new Point(279, 248));
+		map.put("n141", new Point(272, 248));
+		map.put("n142", new Point(265, 248));
+		map.put("n143", new Point(258, 248));
+		map.put("n144", new Point(251, 248));
+		map.put("n145", new Point(244, 248));
+		map.put("n146", new Point(237, 248));
+		map.put("n147", new Point(230, 248));
 		map.put("n148", new Point(258, 180));
 		map.put("n149", new Point(258, 196));
 		map.put("n150", new Point(260, 212));
@@ -1107,15 +1182,17 @@ public final class SnackManCore implements Runnable {
 		map.put("n177", new Point(204, 144));
 		map.put("n178", new Point(200, 144));
 		
-		map.put("nIceCream", new Point(200, 240));
-		map.put("nIceCream1", new Point(208, 240));
-		map.put("nIceCream2", new Point(215, 240));
-		map.put("nIceCream3", new Point(223, 240));
-		map.put("nCoffee", new Point(152, 240));
-		map.put("nCoffee1", new Point(176, 240));
-		map.put("nCoffee2", new Point(188, 240));
-		map.put("nCoffee3", new Point(164, 240));
+		map.put("nIceCream", new Point(200, 248));
+		map.put("nIceCream1", new Point(208, 248));
+		map.put("nIceCream2", new Point(215, 248));
+		map.put("nIceCream3", new Point(223, 248));
+		
+		map.put("nCoffee", new Point(152, 248));
+		map.put("nCoffee1", new Point(176, 248));
+		map.put("nCoffee2", new Point(188, 248));
+		map.put("nCoffee3", new Point(164, 248));
 		
 	}
+
 
 }

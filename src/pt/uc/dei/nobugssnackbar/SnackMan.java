@@ -99,16 +99,16 @@ public abstract class SnackMan {
 	}
 
 	public final void goToCoffeeMachine() throws Exception {
-		
+		core.goToCoffeeMachine();
 	}
 
 	public final void prepareCoffee() throws Exception {
-		
+		core.prepareCoffee();
 	}
 
-	public final Order pickUpCoffee() throws Exception {
+	public final Order pickUpCoffee(Order order) throws Exception {
 		
-		return null;
+		return core.pickUpCoffee(order);
 	}
 
 	public final void goToIceCreamMachine() throws Exception {
@@ -130,7 +130,13 @@ public abstract class SnackMan {
 		return core.askForIceCream();
 	}
 
+	public int cashIn(int orderValue) {
+		return core.cashIn(orderValue);
+	}
 	
+	public void giveChange(int howMany, MoneyType moneyType) {
+		core.giveChange(howMany, moneyType);
+	}
 /*
 	cashIn
 	giveChange

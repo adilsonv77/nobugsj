@@ -87,6 +87,7 @@ public class ExercicioFactory
     	d.addBeanPropertySetter("*/customers/customer/id");
     	d.addBeanPropertySetter("*/customers/customer/init");
     	d.addBeanPropertySetter("*/customers/customer/dest");
+    	d.addBeanPropertySetter("*/customers/customer/pay");
     	
     	d.addObjectCreate("*/customers/customer/orders/order", OrderConf.class);
     	d.addSetNext("*/customers/customer/orders/order", "addOrder");

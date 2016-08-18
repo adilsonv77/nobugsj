@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import pt.uc.dei.nobugssnackbar.exceptions.MundoException;
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
@@ -34,6 +35,9 @@ public class Customer
 	private boolean thereIsACustomer = false;
 	private String place;
 	private List<Order> deliveredItems = new ArrayList<>();
+	private int amountPaid;
+	private int pay;
+	private int amountChangeExpected;
 
 	public Customer(CustomerDefinition def, int index)
     {
@@ -56,6 +60,8 @@ public class Customer
 	    		else
 	    			this.place = "table";
 	    		
+	    		this.pay = def.getPay();
+	    		
 	    		this.orders  = def.cloneOrders();
 	    		
 	    		this.curOrder = 0;
@@ -68,6 +74,10 @@ public class Customer
 		this.curX = this.initialX;
 		this.curY = this.initialY;
     }
+
+	public String getPlace() {
+		return place;
+	}
 	
 	public void nextOrder() {
 		this.dUnfulfilled = 0;
@@ -121,31 +131,39 @@ public class Customer
     	}
     	
     	int startY = curY - 30;
+
+    	try {
     	
-    	switch (order.getItems().size() - (dUnfulfilled + fUnfulfilled)) {
-    		case 1 :
-    			g.drawImage(baloons.get(idxBaloon), startX, startY, null);
-    			g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(0).getType()+".png"), startX+startFoodX+5, startY+5, 20, 20, null);
-    			break;
-
-    		case 2 :
-    			g.drawImage(baloons.get(idxBaloon+1), startX, startY, null);
-				for (int i = 0;i < 2;i++) {
-					g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(i).getType()+".png"), startX+startFoodX+6, startY+2+(18*i), 18, 18, null);
-				}
-    			break;
-    			
-    		case 3 :
-    			g.drawImage(baloons.get(idxBaloon+2), startX, startY, null);
-				if (idxBaloon == 0) 
-					startX += 3;
-				else
-					startX += 10;
-
-				for (int i = 0;i < 3;i++) {
-					g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(i).getType()+".png"), startX+startFoodX+5, startY+2+(16*i), 16, 16, null);
-				}
-    			break;
+	    	switch (order.getItems().size() - (dUnfulfilled + fUnfulfilled)) {
+	    		case 1 :
+	    			g.drawImage(baloons.get(idxBaloon), startX, startY, null);
+	    			g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(0).getType()+".png"), startX+startFoodX+5, startY+5, 20, 20, null);
+	    			break;
+	
+	    		case 2 :
+	    			g.drawImage(baloons.get(idxBaloon+1), startX, startY, null);
+					for (int i = 0;i < 2;i++) {
+						g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(i).getType()+".png"), startX+startFoodX+6, startY+2+(18*i), 18, 18, null);
+					}
+	    			break;
+	    			
+	    		case 3 :
+	    			g.drawImage(baloons.get(idxBaloon+2), startX, startY, null);
+					if (idxBaloon == 0) 
+						startX += 3;
+					else
+						startX += 10;
+	
+					for (int i = 0;i < 3;i++) {
+						g.drawImage(LoadImage.getInstance().getImage("imagens/$$"+order.findUndeliveredItem(i).getType()+".png"), startX+startFoodX+5, startY+2+(16*i), 16, 16, null);
+					}
+	    			break;
+	    	}
+    	} catch (Exception  ex) {
+    		// como a GUI é outra thread, ela pode se atrasar para repintar
+    		// isso acontece quando a velocidade do programa é muito alta
+    		// eu posso repensar como as coisas acontecem... mas vou gastar mais tempo para isso, e como está já resolve
+    		
     	}
     	
     	
@@ -195,6 +213,14 @@ public class Customer
     	return null;
 	}
 
+	public int getFoodDelivered() {
+		return this.fUnfulfilled;
+	}
+	
+	public int getDrinksDelivered() {
+		return this.dUnfulfilled;
+	}
+	
 	public boolean hasHunger() {
 		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
 		
@@ -295,20 +321,33 @@ public class Customer
 	}
 
 	private boolean fullDelivered() {
-		OrderConf order = this.orders.get(this.curOrder);
-		return (this.dUnfulfilled == order.getDrinks().size()) && (this.fUnfulfilled == order.getFoods().size());
+		return (this.dUnfulfilled == getDrinks().size()) && (this.fUnfulfilled == getFoods().size());
 	}
 
+	public List<OrderItem> getFoods() {
+		if (this.orders == null)
+			return new ArrayList<>();
+
+		return this.orders.get(this.curOrder).getFoods();
+	}
+	
+	public List<OrderItem> getDrinks() {
+		if (this.orders == null)
+			return new ArrayList<>();
+		
+		return this.orders.get(this.curOrder).getDrinks();
+	}
+	
 	public int askWantHowManyFoods() {
-		return this.orders.get(this.curOrder).getFoods().size();
+		return getFoods().size();
 	}
 
 	public int askWantHowManyDrinks() {
-		return this.orders.get(this.curOrder).getDrinks().size();
+		return getDrinks().size();
 	}
 
 	public int askHowMuchInFoodsIfSell() {
-		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		List<OrderItem> foods = getFoods();
 		
 		int total = 0;
 		for (OrderItem f:foods)
@@ -318,7 +357,7 @@ public class Customer
 	}
 
 	public int askHowMuchInDrinksIfSell() {
-		List<OrderItem> drinks = this.orders.get(this.curOrder).getDrinks();
+		List<OrderItem> drinks = getDrinks();
 		
 		int total = 0;
 		for (OrderItem f:drinks)
@@ -328,7 +367,7 @@ public class Customer
 	}
 
 	public int askWantHowManyIceCream() {
-		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		List<OrderItem> foods = getFoods();
 
 		int c = 0;
 		for (int i=0; i<foods.size(); i++) {
@@ -342,7 +381,7 @@ public class Customer
 	}
 
 	public Order askForIceCream() {
-		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
+		List<OrderItem> foods = getFoods();
 		
     	if (this.fUnfulfilled >= foods.size())
     		return null;
@@ -353,6 +392,66 @@ public class Customer
     		}
     	
     	return null;
+	}
+
+	public int cashIn(int orderValue) {
+		
+		int amountPayable = this.askHowMuchInDrinksIfSell() + this.askHowMuchInFoodsIfSell();
+		
+		// the customer has already paid
+		if (this.amountPaid != 0) {
+			throw new MundoException("O cliente já pagou o pedido.");
+		}
+		
+		// Both values are not the same
+		if (amountPayable != orderValue) {
+			throw new MundoException("A conta do valor a pagar está incorreta.");
+		}
+		
+		if (this.pay == 0) {
+			
+			int[] selectMoney = {10, 20};
+			if (amountPayable > 10)
+				selectMoney = new int[]{20};
+			
+			int idx = (new Random()).nextInt(selectMoney.length);
+			this.amountPaid = selectMoney[idx];
+		} else
+			this.amountPaid = (this.pay);
+		
+		this.amountChangeExpected = this.amountPaid - amountPayable;
+		
+		return this.amountPaid;
+	}
+
+	public boolean hasReceivedItem(String foodOrDrink, String itemId) {
+		if (foodOrDrink == null || foodOrDrink.equals("food")) {
+			
+			List<OrderItem> foods = getFoods();
+			for (OrderItem item: foods)
+				if (item.isDelivered() && item.getType().equals(itemId))
+					return true;
+			
+		}
+		
+		if (foodOrDrink == null || foodOrDrink.equals("drink")) {
+			
+			List<OrderItem> drinks = getDrinks();
+			
+			for (OrderItem item: drinks)
+				if (item.isDelivered() && item.getType().equals(itemId))
+					return true;
+		}
+		
+		return false;
+	}
+
+	public boolean isPaid() {
+		return amountPaid > 0;
+	}
+
+	public int getAmountPaid() {
+		return amountPaid;
 	}
 
 }
