@@ -33,8 +33,11 @@ public class Talk extends Objective {
 					return Boolean.parseBoolean(value.toString());
 				if (conf.getTypeConv().equals("int")) {
 					value = Math.round((double) value);
-				}
-			} else
+				} else
+					if (conf.getTypeConv().equals("double")) {
+						return ((Double)options).equals((Double)value);
+					}
+			} else 
 				if (value.getClass() != Integer.class)
 					value = Math.round((double) value);
 			
@@ -64,6 +67,7 @@ public class Talk extends Objective {
 			ex.printStackTrace();
 			return false;
 		}
+
 		return (value + "").equals(options.toString());
 	}
 

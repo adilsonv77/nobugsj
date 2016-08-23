@@ -15,7 +15,7 @@ public class NoBugsM1 extends SnackMan {
 			if (isThereACustomer()) {
 				
 				talk("Cheguei no cliente " + i + " com fome de " + askWantHowManyFoods() + " e sede de " + askWantHowManyDrinks());
-				if (hasHunger()) { 
+				if (askHasHunger()) { 
 					
 					Order food = askForFood();
 					talk(food);
@@ -27,7 +27,7 @@ public class NoBugsM1 extends SnackMan {
 					deliver(order);
 				}
 
-				if (hasThirsty()) {
+				if (askHasThirsty()) {
 					
 					Order drink = askForDrink();
 					talk(drink);

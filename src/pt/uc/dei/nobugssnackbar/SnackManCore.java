@@ -194,7 +194,7 @@ public final class SnackManCore implements Runnable {
 		return food;
 	}
 
-	public boolean hasHunger() {
+	public boolean askHasHunger() {
 		if (isParar())
 			throw new SnackManEncerradoException();
 
@@ -286,7 +286,7 @@ public final class SnackManCore implements Runnable {
 		return drink;
 	}
 
-	public boolean hasThirsty() {
+	public boolean askHasThirsty() {
 		if (isParar())
 			throw new SnackManEncerradoException();
 
@@ -540,7 +540,20 @@ public final class SnackManCore implements Runnable {
 	}
 
 	public void giveChange(int howMany, MoneyType moneyType) {
-		// TODO Auto-generated method stub
+		
+		Customer found = this.getCustomer();
+		
+		if (found == null) {
+			throw new MundoException("Não existe cliente nessa posição.");
+		}
+		
+		if (found.giveChange(howMany, moneyType)) {
+			
+			noBugsVisual.verifyObjectives("giveTheWholeChange", found);
+			noBugsVisual.verifyObjectives("giveSomeChange", found);
+			  
+		}
+
 		
 	}
 

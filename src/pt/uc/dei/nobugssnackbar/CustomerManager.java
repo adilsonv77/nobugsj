@@ -30,6 +30,18 @@ public final class CustomerManager {
 		return total;
 	}
 	
+	public static int totalOfFood() {
+		
+		if (_customers == null)
+			return 0;
+		
+		int total = 0;
+		for (Customer c: _customers) {
+			total += c.askWantHowManyFoods();	
+		}
+		return total;
+	}
+	
 	public static int totalOfMoneyGave() {
 		
 		if (_customers == null)
@@ -46,6 +58,26 @@ public final class CustomerManager {
 		}
 		
 		return ret;
+	}
+	
+	public static int customerMoneyGave(int custIdx) {
+		
+		if (_customers == null)
+			return 0;
+		
+		if (_customers.get(custIdx-1).isPaid())
+			return _customers.get(custIdx-1).getAmountPaid();
+					
+		return -100;
+	}
+	
+	public static int customerMoneyIfSell(int custIdx) {
+		if (_customers == null)
+			return 0;
+		
+		Customer cust = _customers.get(custIdx-1);
+		
+		return cust.askHowMuchInFoodsIfSell() + cust.askHowMuchInDrinksIfSell();
 	}
 	
 	static void setCustomers(List<Customer> customers) {

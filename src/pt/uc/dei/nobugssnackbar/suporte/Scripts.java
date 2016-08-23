@@ -1,6 +1,8 @@
 package pt.uc.dei.nobugssnackbar.suporte;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -10,11 +12,16 @@ public class Scripts {
 
 	private static ScriptEngine js;
 	
+	private static InputStream loadScript(String scriptName) throws Exception {
+		InputStream script = Scripts.class.getResourceAsStream(scriptName);
+		return script;
+	}
+	
 	static {
 		js = (new ScriptEngineManager()).getEngineByName("js");
 		try {
-			js.eval(new FileReader("customermanager.js"));
-			js.eval(new FileReader("game.js"));
+			js.eval(new BufferedReader(new InputStreamReader(loadScript("/scripts/customermanager.js"))));
+			js.eval(new BufferedReader(new InputStreamReader(loadScript("/scripts/game.js"))));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

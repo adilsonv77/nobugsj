@@ -9,28 +9,21 @@ public class M2_5 extends SnackMan {
 	@Override
 	public void serve() throws Exception {
 
+		// missão para exemplificar a manipulação com os objetos
 		goToBarCounter(2);
 		
-		if (hasHunger()) {
-			
-			Order comida = askForFood();
-			goToDisplay();
-			comida = pickUpHotDog(comida);
+		Order comida = askForFood();
+		Order bebida = askForDrink();
 
-			goToBarCounter(2);
-			deliver(comida);
+		goToDisplay();
+		comida = pickUpHotDog(comida);
 
-		}
+		goToCooler();
+		bebida = pickUpDrink(bebida);
 		
-		if (hasThirsty()) {
-			
-			Order bebida = askForDrink();
-			goToCooler();
-			bebida = pickUpDrink(bebida);
-			
-			goToBarCounter(2);
-			deliver(bebida);
-		}
+		goToBarCounter(2);
+		deliver(comida);
+		deliver(bebida);
 		
 	}
 

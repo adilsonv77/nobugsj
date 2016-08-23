@@ -48,8 +48,8 @@ public abstract class SnackMan {
 		return core.askForFood();
 	}
 	
-	public final boolean hasHunger() throws Exception {
-		return core.hasHunger();
+	public final boolean askHasHunger() throws Exception {
+		return core.askHasHunger();
 	}
 	
 	public final Order pickUpHotDog(Order food) {
@@ -60,8 +60,8 @@ public abstract class SnackMan {
 		return core.askForDrink();
 	}
 	
-	public final boolean hasThirsty() throws Exception {
-		return core.hasThirsty();
+	public final boolean askHasThirsty() throws Exception {
+		return core.askHasThirsty();
 	}
 	
 	public final Order pickUpDrink(Order drink) {
@@ -148,7 +148,7 @@ public abstract class SnackMan {
 	
 	public abstract void serve() throws Exception;
 
-	public static final double VERSAO = 0.1;
+	public static final double VERSAO = 0.2;
 
 	SnackManCore getCore() { return core; }
 	void setCore(SnackManCore snackManCore) {

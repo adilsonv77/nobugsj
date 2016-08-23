@@ -9,6 +9,7 @@ public class CustomerDefinition {
 	private String init;
 	private String dest;
 	private int pay;
+	private String limitedChanges;
 	
 	private List<OrderConf> orders = new ArrayList<>();
 	
@@ -45,6 +46,14 @@ public class CustomerDefinition {
 	
 	public void setPay(int pay) {
 		this.pay = pay;
+	}
+	
+	public String getLimitedChanges() {
+		return limitedChanges;
+	}
+	
+	public void setLimitedChanges(String limitedChanges) {
+		this.limitedChanges = limitedChanges;
 	}
 	
 	@Override

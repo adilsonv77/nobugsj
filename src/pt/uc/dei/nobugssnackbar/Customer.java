@@ -3,7 +3,9 @@ package pt.uc.dei.nobugssnackbar;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import pt.uc.dei.nobugssnackbar.exceptions.MundoException;
@@ -38,6 +40,9 @@ public class Customer
 	private int amountPaid;
 	private int pay;
 	private int amountChangeExpected;
+	private int amountChangeReceived;
+	private Map<MoneyType, Integer> changeReceived = new HashMap<>();
+	private String[] limitedChanges;
 
 	public Customer(CustomerDefinition def, int index)
     {
@@ -62,6 +67,12 @@ public class Customer
 	    		
 	    		this.pay = def.getPay();
 	    		
+	    		String lc = def.getLimitedChanges(); 
+	    		if (lc == null) {
+	    			lc = "20, 10, 5, 2, 1";
+	    		}
+	    		this.limitedChanges = lc.split(",");
+	    		
 	    		this.orders  = def.cloneOrders();
 	    		
 	    		this.curOrder = 0;
@@ -82,6 +93,11 @@ public class Customer
 	public void nextOrder() {
 		this.dUnfulfilled = 0;
 		this.fUnfulfilled = 0;
+		
+		this.amountPaid = 0;
+		this.amountChangeReceived = 0;
+		this.changeReceived.clear();
+		
 		this.curOrder++;
 	}
 	
@@ -452,6 +468,61 @@ public class Customer
 
 	public int getAmountPaid() {
 		return amountPaid;
+	}
+
+	public boolean giveChange(int howMany, MoneyType moneyType) {
+		
+		if (!this.isPaid()) {
+			throw new MundoException("Você está tentando dar ao cliente troco, mas ele nem te pagou ainda.");
+		}
+		
+		if (moneyType == null)
+			throw new MundoException("Informe alguma tipo de moeda a ser dada como troco.");
+		
+		int totalChange = moneyType.getNum() * howMany;
+		
+		if (this.amountChangeReceived + totalChange > this.amountChangeExpected) {
+			throw new MundoException("Você está tentando dar ao cliente mais troco do que o necessário.");
+		}
+		
+		this.amountChangeReceived += totalChange;
+		Integer qtd = this.changeReceived.get(moneyType);
+		
+		this.changeReceived.put(moneyType, (qtd == null?0:qtd) + howMany);
+		
+		return this.amountChangeExpected == this.amountChangeReceived;
+	}
+
+	public boolean isChangeReceived() {
+		return this.amountChangeExpected == this.amountChangeReceived;
+	}
+
+	public boolean isTheBestChange() {
+		
+		int v = this.amountChangeExpected;
+		String[] keys = this.limitedChanges;
+		for (String key:keys) {
+			
+			int keyInt = Integer.parseInt(key.trim());
+			int n = (v / keyInt);
+			
+			
+			Integer foundType = changeReceived.get(MoneyType.numToMoneyType(keyInt));
+			
+			boolean mistake = !(n == 0 || foundType > 0 && foundType == n);
+			if (mistake) return false;
+			
+			v -= n * keyInt;
+			
+		}
+	
+		return true;
+		
+	}
+
+	public boolean receivedChange(int moneyType, int qtd) {
+		
+		return changeReceived.get(MoneyType.numToMoneyType(moneyType)) == qtd;
 	}
 
 }

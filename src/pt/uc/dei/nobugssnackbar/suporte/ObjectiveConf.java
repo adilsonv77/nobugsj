@@ -15,6 +15,8 @@ import pt.uc.dei.nobugssnackbar.goals.CashIn;
 import pt.uc.dei.nobugssnackbar.goals.CustomDeliver;
 import pt.uc.dei.nobugssnackbar.goals.Deliver;
 import pt.uc.dei.nobugssnackbar.goals.DeliverGifts;
+import pt.uc.dei.nobugssnackbar.goals.GiveSomeChange;
+import pt.uc.dei.nobugssnackbar.goals.GiveTheWholeChange;
 import pt.uc.dei.nobugssnackbar.goals.GoesToCooler;
 import pt.uc.dei.nobugssnackbar.goals.GoesToCounter;
 import pt.uc.dei.nobugssnackbar.goals.GoesToDisplay;
@@ -35,6 +37,8 @@ public class ObjectiveConf {
 	private String condition;
 	private String gift;
 	private String typeConv;
+	private String qtd;
+	private String moneyType;
 	
 	public int getPos() {
 		return pos;
@@ -101,6 +105,22 @@ public class ObjectiveConf {
 		this.gift = gift;
 	}
 	
+	public String getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(String qtd) {
+		this.qtd = qtd;
+	}
+	
+	public String getMoneyType() {
+		return moneyType;
+	}
+	
+	public void setMoneyType(String moneyType) {
+		this.moneyType = moneyType;
+	}
+	
 	@Override
 	public String toString() {
 		return type + " " + pos + " " + place + " " + fullText + " " + text + " " + value;
@@ -147,5 +167,8 @@ public class ObjectiveConf {
 		mapObjectives.put("talk", Talk.class);
 		
 		mapObjectives.put("cashIn", CashIn.class);
+		mapObjectives.put("giveTheWholeChange", GiveTheWholeChange.class);
+		mapObjectives.put("giveSomeChange", GiveSomeChange.class);
 	}
+
 }
