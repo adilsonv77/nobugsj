@@ -12,6 +12,10 @@ public abstract class Objective {
 		this.conf = conf;
 	}
 	
+	public ObjectiveConf getConf() {
+		return conf;
+	}
+	
 	public abstract String getText();
 
 	public boolean verifyObjective(String key, Object options) {

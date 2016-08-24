@@ -148,7 +148,7 @@ public abstract class SnackMan {
 	
 	public abstract void serve() throws Exception;
 
-	public static final double VERSAO = 0.2;
+	public static final double VERSAO = 0.3;
 
 	SnackManCore getCore() { return core; }
 	void setCore(SnackManCore snackManCore) {

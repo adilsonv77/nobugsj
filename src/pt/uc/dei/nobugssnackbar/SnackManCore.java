@@ -256,7 +256,7 @@ public final class SnackManCore implements Runnable {
 		int amount = found.deliver(order);
 		order.delivered();
 		
-		if (amount == 1) {
+		if (amount >= 1) {
 			noBugsVisual.verifyObjectives("deliver", found);
 			noBugsVisual.verifyObjectives("customDeliver", found);
 			noBugsVisual.verifyObjectives("deliverGifts", found);
@@ -343,7 +343,8 @@ public final class SnackManCore implements Runnable {
 		if (!this.vertCurPosition.getNome().equals(boxOfFruitsNode.getNome()))
 			throw new MundoException("Não está em frente da caixa de frutas.");
 		
-		if (order == null || !order.getTypeOrder().equals("order")) {
+		// custPlace == null : is a gift
+		if (order == null || (order.getCustPlace() != null &&!order.getTypeOrder().equals("order"))) {
 			throw new MundoException("Esqueceu de anotar o pedido.");
 		}
 		
@@ -463,7 +464,8 @@ public final class SnackManCore implements Runnable {
 			throw new MundoException("Não está em frente da máquina de sorvetes.");
 		
 		// does he have an item ? 
-		if (order == null || !order.getTypeOrder().equals("order")) {
+		// custPlace == null : is a gift
+		if (order == null || (order.getCustPlace() != null &&!order.getTypeOrder().equals("order"))) {
 			throw new MundoException("Esqueceu de anotar o pedido.");
 		}
 

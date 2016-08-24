@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -37,7 +38,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	private Class<? extends SnackMan> snackManClass;
 
-	private List<Objective> objectives = new ArrayList<>();
+	private static List<Objective> objectives = new ArrayList<>();
 
 	private int runs = 0;
 
@@ -175,12 +176,12 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		createObjectives(exercicio.getObjectives());
 	}
 
-	private void createObjectives(List<ObjectiveConf> objectives) throws Exception {
-		this.objectives.clear();
-		for (ObjectiveConf objconf:objectives) {
+	private void createObjectives(List<ObjectiveConf> paramObjectives) throws Exception {
+		objectives.clear();
+		for (ObjectiveConf objconf:paramObjectives) {
 			Objective obj = objconf.generate();
 			obj.setMundo(this);
-			this.objectives.add( obj );
+			objectives.add( obj );
 		}
 	}
 
@@ -222,6 +223,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		
 		verifyObjectivesForAllCustomers("deliver"); 
 		verifyObjectivesForAllCustomers("customDeliver"); 
+		verifyObjectivesForAllCustomers("deliverGifts"); 
 		
 		if (!parar && allGoalsAchieved() && this.runs < this.exercicio.getTests()) {
 			// next configuration
@@ -287,9 +289,35 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	}
 
 	public List<Objective> getObjectives() {
-		return this.objectives;
+		return objectives;
 	}
 
+	public static Objective search(String key, Map<String, String> params) throws Exception {
+		
+		for (Objective obj:objectives) {
+			
+			ObjectiveConf conf = obj.getConf();
+			if (conf.getType().equals(key)) {
+				boolean found = true;
+				for (String kp:params.keySet()) {
+					
+					String methodName = "get" + kp.substring(0,1).toUpperCase() + kp.substring(1);
+					
+					String value = ObjectiveConf.class.getMethod(methodName).invoke(conf) + "";
+					if (!value.equals(params.get(kp))) {
+						found = false;
+						break;
+					}
+				}
+				if (found)
+					return obj;
+			}
+				
+		}
+		
+		return null;
+	}
+	
 	public void verifyObjectives(String key, Object options) {
 
 		for (int i = 0; i < objectives.size(); i++) {

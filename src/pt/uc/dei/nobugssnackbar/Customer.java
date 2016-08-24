@@ -9,10 +9,12 @@ import java.util.Map;
 import java.util.Random;
 
 import pt.uc.dei.nobugssnackbar.exceptions.MundoException;
+import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.suporte.CustomerDefinition;
 import pt.uc.dei.nobugssnackbar.suporte.LoadImage;
 import pt.uc.dei.nobugssnackbar.suporte.OrderConf;
 import pt.uc.dei.nobugssnackbar.suporte.OrderItem;
+import pt.uc.dei.nobugssnackbar.suporte.Scripts;
 
 /**
  * 
@@ -21,7 +23,12 @@ import pt.uc.dei.nobugssnackbar.suporte.OrderItem;
 public class Customer
 {
 
-    private String id;
+	public static final int BAD = -1;
+    public static final int INCOMPLETE = 0;
+    public static final int TOTAL = 1;
+    public static final int DELIVERED_THANK_YOU = 2;
+	
+	private String id;
 	private int initialX;
 	private int initialY;
 	private Image image;
@@ -93,6 +100,8 @@ public class Customer
 	public void nextOrder() {
 		this.dUnfulfilled = 0;
 		this.fUnfulfilled = 0;
+
+		this.deliveredItems.clear();
 		
 		this.amountPaid = 0;
 		this.amountChangeReceived = 0;
@@ -237,6 +246,10 @@ public class Customer
 		return this.dUnfulfilled;
 	}
 	
+	public List<Order> getDeliveredItems() {
+		return deliveredItems;
+	}
+	
 	public boolean hasHunger() {
 		List<OrderItem> foods = this.orders.get(this.curOrder).getFoods();
 		
@@ -265,30 +278,17 @@ public class Customer
 
 	public int deliver(Order item) {
 		
-		int happy = -1;
+		int happy = BAD;
 		
 		if (item.getCustPlace() == null) {
-			// TODO: it is a gift
-			/*
-					
-					var ret = this.hasMerit(item);
-					if (ret == 2) {
-						
-						happy = Customer.DELIVERED_THANK_YOU;
-						this.showLove = true;
-						this.heart.x = this.img.x+5;
-						this.heart.y = this.img.y-20;
-						
-						this.state = 39;
-					} else {
-						
-						this.iAmHunger();
-						reason = (ret == 0?"Error_doesntHaveMeritForTheGift":"Error_expectedAnotherGift");
-						
-					}
-					
 			
-			*/		
+			int ret = this.hasMerit(item);
+			if (ret == 2) {
+				
+				happy = DELIVERED_THANK_YOU;
+
+			} 
+	
 		} else {
 			
 			OrderConf order = this.orders.get(this.curOrder);
@@ -317,7 +317,7 @@ public class Customer
 						
 						d.setDelivered(true);
 						
-						happy = (this.fullDelivered()?1:0);
+						happy = (this.fullDelivered()?TOTAL:INCOMPLETE);
 					} else {
 						throw new MundoException("Tentou entregar um produto que o cliente não pediu.");
 					}
@@ -334,6 +334,33 @@ public class Customer
 		}
 		
 		return happy;
+	}
+
+	private int hasMerit(Order item) {
+		int ret = 0;
+		
+		Map<String, String> params = new HashMap<>();
+		params.put("pos", (this.index+1)+"");
+		params.put("place", this.place);
+		
+		try {
+		
+			Objective obj = NoBugsVisual.search("deliverGifts", params);
+			if (obj != null) { // i dont have the merit
+				Object value = Scripts.eval(obj.getConf().getValue());
+				if (value.toString().length() > 0) 
+					if (!value.equals(item.getItem()))
+						ret = 1; // i expected a diferent gift
+					else
+						ret = 2;
+						
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
 	}
 
 	private boolean fullDelivered() {
@@ -523,6 +550,15 @@ public class Customer
 	public boolean receivedChange(int moneyType, int qtd) {
 		
 		return changeReceived.get(MoneyType.numToMoneyType(moneyType)) == qtd;
+	}
+
+	public boolean hasReceivedGift(String typeOfGift) {
+		
+		for (Order di:this.deliveredItems)
+			if (di.getCustPlace() == null && di.getItem().equals(typeOfGift))
+				return true;
+		
+		return false;
 	}
 
 }
