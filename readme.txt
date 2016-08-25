@@ -1,3 +1,9 @@
+0.4 - 25/08/2016
++ Resolvido um erro na comparação de objetivos de entregas.
++ Nova constante na classe Order: CAFE.
++ Aceita receber café de presente. 
++ Novo objetivo Conditional
+
 0.3 - 24/08/2016
 + Novas constantes na classe Order: REFRIGERANTE, SUCODELARANJA.
 + Objetivo DeliverGift implementado 

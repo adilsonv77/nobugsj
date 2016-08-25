@@ -137,10 +137,7 @@ public abstract class SnackMan {
 	public void giveChange(int howMany, MoneyType moneyType) {
 		core.giveChange(howMany, moneyType);
 	}
-/*
-	cashIn
-	giveChange
-	*/
+
 	public final void deliver(Order order) {
 		core.deliver(order);
 	}
@@ -148,7 +145,7 @@ public abstract class SnackMan {
 	
 	public abstract void serve() throws Exception;
 
-	public static final double VERSAO = 0.3;
+	public static final double VERSAO = 0.4;
 
 	SnackManCore getCore() { return core; }
 	void setCore(SnackManCore snackManCore) {

@@ -223,7 +223,8 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		
 		verifyObjectivesForAllCustomers("deliver"); 
 		verifyObjectivesForAllCustomers("customDeliver"); 
-		verifyObjectivesForAllCustomers("deliverGifts"); 
+		verifyObjectivesForAllCustomers("deliverGifts");
+		verifyObjectivesForAllCustomers("conditional"); 
 		
 		if (!parar && allGoalsAchieved() && this.runs < this.exercicio.getTests()) {
 			// next configuration
@@ -320,8 +321,19 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 	
 	public void verifyObjectives(String key, Object options) {
 
+		boolean isCustomer = options != null && options.getClass() == Customer.class;
+		
+		
 		for (int i = 0; i < objectives.size(); i++) {
 			Objective obj = objectives.get(i);
+			
+			if (isCustomer && obj.getConf().getPlace() != null) {
+				Customer cust = (Customer)options;
+				if (!(cust.getPos() == obj.getConf().getPos() && cust.getPlace().equals(obj.getConf().getPlace()))) {
+					continue;
+				}
+			}
+			
 			if (obj.verifyObjective(key, options)) {
 				this.mundoVisual.checkGoal(i);
 			}

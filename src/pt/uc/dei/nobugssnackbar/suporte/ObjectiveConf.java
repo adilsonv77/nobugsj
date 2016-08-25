@@ -12,6 +12,7 @@ import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyDrinks;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyFoods;
 import pt.uc.dei.nobugssnackbar.goals.AskWantHowManyIceCream;
 import pt.uc.dei.nobugssnackbar.goals.CashIn;
+import pt.uc.dei.nobugssnackbar.goals.Conditional;
 import pt.uc.dei.nobugssnackbar.goals.CustomDeliver;
 import pt.uc.dei.nobugssnackbar.goals.Deliver;
 import pt.uc.dei.nobugssnackbar.goals.DeliverGifts;
@@ -169,6 +170,8 @@ public class ObjectiveConf {
 		mapObjectives.put("cashIn", CashIn.class);
 		mapObjectives.put("giveTheWholeChange", GiveTheWholeChange.class);
 		mapObjectives.put("giveSomeChange", GiveSomeChange.class);
+		
+		mapObjectives.put("conditional", Conditional.class);
 	}
 
 }

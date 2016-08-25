@@ -23,3 +23,7 @@ CustomerManager.customerMoneyGave = function(custidx) {
 CustomerManager.customerMoneyIfSell = function(custidx) {
 	return Packages.pt.uc.dei.nobugssnackbar.CustomerManager.customerMoneyIfSell(custidx);
 };
+
+CustomerManager.totalOfMoneyDelivered = function() {
+	return Packages.pt.uc.dei.nobugssnackbar.CustomerManager.totalOfMoneyDelivered();
+}

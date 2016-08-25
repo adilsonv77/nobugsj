@@ -561,4 +561,18 @@ public class Customer
 		return false;
 	}
 
+	public int totalOfMoneyDelivered() {
+		int ret = 0;
+		
+		for(OrderItem f:getFoods())
+			if (f.isDelivered())
+				ret += f.getPrice();
+		
+		for(OrderItem d:getDrinks())
+			if (d.isDelivered())
+				ret += d.getPrice();
+		
+		return ret;
+	}
+
 }

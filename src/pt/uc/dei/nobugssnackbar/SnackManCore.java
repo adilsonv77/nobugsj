@@ -511,7 +511,8 @@ public final class SnackManCore implements Runnable {
 		}
 		
 		// does he have an item ? 
-		if (order == null || !order.getTypeOrder().equals("order")) {
+		// custPlace == null : is a gift
+		if (order == null || (order.getCustPlace() != null &&!order.getTypeOrder().equals("order"))) {
 			throw new MundoException("Esqueceu de anotar o pedido.");
 		}
 

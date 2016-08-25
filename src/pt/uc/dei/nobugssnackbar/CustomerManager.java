@@ -80,6 +80,19 @@ public final class CustomerManager {
 		return cust.askHowMuchInFoodsIfSell() + cust.askHowMuchInDrinksIfSell();
 	}
 	
+	public static int totalOfMoneyDelivered() {
+		
+		if (_customers == null)
+			return 0;
+		
+		int ret = 0;
+		for (Customer c: _customers) {
+			ret += c.totalOfMoneyDelivered();
+		}
+		
+		return ret;
+	}
+	
 	static void setCustomers(List<Customer> customers) {
 
 		_customers = customers;

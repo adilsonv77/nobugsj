@@ -7,6 +7,8 @@ public class Order {
 	public static final Order REFRIGERANTE = new Order("item", "$$coke", "drink", 0, null);
 	public static final Order SUCODELARANJA = new Order("item", "$$juiceoforange", "drink", 0, null);
 	
+	public static final Order CAFE = new Order("item", "$$coffee", "drink", 0, null);
+	
 	private String typeOrder;
 	private String item;
 	private String foodOrDrink;
