@@ -156,6 +156,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		return idxCoffeeMachine;
 	}
 	
+	public boolean isParar() {
+		return parar;
+	}
+	
 	public void parar() {
 		this.parar = true;
 		this.snackman.parar();
@@ -213,6 +217,10 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		this.mundoVisual = mundoVisual;
 	}
 
+	public boolean isTeveExcecao() {
+		return this.snackman.isTeveExcecao();
+	}
+	
 	@Override
 	public void finished() {
 		if (this.thread != null) {

@@ -1,3 +1,6 @@
+0.5 - 14/09/2016
++ Mensagens de texto ao final da execução. 
+
 0.4 - 25/08/2016
 + Resolvido um erro na comparação de objetivos de entregas.
 + Nova constante na classe Order: CAFE.

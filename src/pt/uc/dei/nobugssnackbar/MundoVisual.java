@@ -10,7 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +28,7 @@ import pt.uc.dei.nobugssnackbar.goals.Objective;
 import pt.uc.dei.nobugssnackbar.suporte.Exercicio;
 import pt.uc.dei.nobugssnackbar.suporte.ExercicioFactory;
 import pt.uc.dei.nobugssnackbar.suporte.JCheckList;
+import pt.uc.dei.nobugssnackbar.suporte.LoadImage;
 import pt.uc.dei.nobugssnackbar.suporte.TestsCounter;
 
 /**
@@ -53,12 +56,18 @@ public class MundoVisual extends JFrame {
 		return atributos.containsKey(nome);
 	}
 
+	private ImageIcon iconVictory;
+	private ImageIcon iconFail;
+
 	private MundoVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		executou = false;
 		euMesmo = this;
 		
 		mundoNoBugs = new NoBugsVisual(exercicio, snackManClass);
 		mundoNoBugs.setMundoVisual(this);
+		
+		this.iconVictory = LoadImage.getInstance().getIcon("imagens/teacher_victory.png");
+		this.iconFail = LoadImage.getInstance().getIcon("imagens/teacher_fail.png");
 		
 		initComponents(exercicio);
 	}
@@ -231,9 +240,28 @@ public class MundoVisual extends JFrame {
 		mundoNoBugs.requestFocus();
 	}
 
+	private void showMessage(String title, String message, ImageIcon ico) {
+		// fiz isso, porque só JOptionPane.showMessageDialog não mostrava uma segunda vez !!!!
+		JOptionPane jp = new JOptionPane(message,
+				JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, ico);
+		JDialog dialog = jp.createDialog(this, title);
+        dialog.setModal(true);
+        dialog.setVisible(true);
+
+	}
+	
 	public void fimExecucao() {
-		if (allGoalsAchieved())
-			jpTests.addCurRun();
+		if (!mundoNoBugs.isParar())
+			if (!mundoNoBugs.isTeveExcecao()) {
+				if (allGoalsAchieved()) {
+					jpTests.addCurRun();
+					showMessage("Vitória", "Parabéns!!! \nCumpriu todos os objetivos.", iconVictory);
+
+				} else 
+					showMessage("Falha", "Releia o enunciado, pois não cumpristes todos os objetivos.", iconFail);
+			} else
+				showMessage("Falha", "Teu cozinheiro fez algo ilegal. Consulte a console.", iconFail);
+			
 		jbExecutar.setEnabled(true);
 		jbParar.setEnabled(false);
 		jbRenovar.setEnabled(true);

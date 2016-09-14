@@ -40,6 +40,7 @@ public final class SnackManCore implements Runnable {
 	private Vertice juiceMachineNode;
 	private Vertice iceCreamMachineNode;
 	private Vertice coffeeMachineNode;
+	private boolean teveExcecao;
 	public static int tempoEspera = 100;
 	
 	public SnackManCore(SnackMan snackMan) {
@@ -80,6 +81,10 @@ public final class SnackManCore implements Runnable {
 		
 	}
 	
+	public boolean isTeveExcecao() {
+		return teveExcecao;
+	}
+	
 	public void run() {
 		podeParar = false;
 		MundoException ex = null;
@@ -93,6 +98,8 @@ public final class SnackManCore implements Runnable {
 			exc.printStackTrace();
 		}
 
+		this.teveExcecao = ex != null;
+		
 		podeParar = false;
 		notifyFinishedRun();
 		if (ex != null)
