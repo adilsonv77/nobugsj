@@ -1,3 +1,6 @@
+0.6
++ Renomeei a classe MundoVisual e o método iniciar para inglês.
+
 0.5 - 14/09/2016
 + Mensagens de texto ao final da execução. 
 

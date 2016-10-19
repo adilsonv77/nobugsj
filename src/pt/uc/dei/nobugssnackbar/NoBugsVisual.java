@@ -32,7 +32,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 
 	private Image cooler;
 
-	private MundoVisual mundoVisual;
+	private VisualWorld mundoVisual;
 
 	private Thread thread;
 
@@ -213,7 +213,7 @@ public class NoBugsVisual extends JPanel implements FinishedRunListener {
 		
 	}
 
-	public void setMundoVisual(MundoVisual mundoVisual) {
+	public void setMundoVisual(VisualWorld mundoVisual) {
 		this.mundoVisual = mundoVisual;
 	}
 

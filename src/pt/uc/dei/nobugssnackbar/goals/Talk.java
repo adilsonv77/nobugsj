@@ -11,7 +11,7 @@ public class Talk extends Objective {
 
 	@Override
 	public String getText() {
-		return String.format("Falar %s", conf.getText());
+		return String.format("Talk %s", conf.getText());
 	}
 
 	@Override

@@ -35,7 +35,7 @@ import pt.uc.dei.nobugssnackbar.suporte.TestsCounter;
  * 
  * @author Adilson Vahldick 
  */
-public class MundoVisual extends JFrame {
+public class VisualWorld extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ public class MundoVisual extends JFrame {
 	private ImageIcon iconVictory;
 	private ImageIcon iconFail;
 
-	private MundoVisual(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
+	private VisualWorld(Exercicio exercicio, Class<? extends SnackMan> snackManClass) throws Exception {
 		executou = false;
 		euMesmo = this;
 		
@@ -81,7 +81,7 @@ public class MundoVisual extends JFrame {
 		getContentPane().add(mundoNoBugs, "Center");
 		
 		objetivos = new JCheckList();
-		objetivos.setTitle("Objetivos:");
+		objetivos.setTitle("Goals:");
 		
 		for (Objective obj:mundoNoBugs.getObjectives())
 			objetivos.addItem(obj.getText());
@@ -177,7 +177,7 @@ public class MundoVisual extends JFrame {
 
 		});
 		
-		jbEnunciado = new JButton("Enunciado");
+		jbEnunciado = new JButton("Description");
 		jbEnunciado.setEnabled(true);
 		jpBotoes.add(jbEnunciado);
 		jbEnunciado.addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ public class MundoVisual extends JFrame {
 			}
 
 		});
-		jpSlider.add(new JLabel("   Velocidade :"));
+		jpSlider.add(new JLabel("   Speed :"));
 		jpSlider.add(slider);
 		jp.add(jpSlider);
 		return jconsole;
@@ -281,7 +281,7 @@ public class MundoVisual extends JFrame {
 		console.setText(console.getText()+text+"\n");
 	}
 
-	public static void iniciar(String nomeArquivo, final Class<? extends SnackMan> snackManClass) {
+	public static void start(String nomeArquivo, final Class<? extends SnackMan> snackManClass) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			final Exercicio exercicio = ExercicioFactory.create(nomeArquivo);
@@ -289,7 +289,7 @@ public class MundoVisual extends JFrame {
 
 				public void run() {
 					try {
-						new MundoVisual(exercicio, snackManClass);
+						new VisualWorld(exercicio, snackManClass);
 					} catch (ClassNotFoundException classE) {
 						JOptionPane.showMessageDialog(null, (new StringBuilder(
 								"Voc\352 precisa criar uma classe de nome "))
@@ -311,7 +311,7 @@ public class MundoVisual extends JFrame {
 	private JTextArea console;
 	private boolean executou;
 	private int mundoAtual;
-	private static MundoVisual euMesmo;
+	private static VisualWorld euMesmo;
 	private static HashMap<String, Object> atributos = new HashMap<String, Object>();
 	private JButton jbExecutar;
 	private JButton jbEnunciado;

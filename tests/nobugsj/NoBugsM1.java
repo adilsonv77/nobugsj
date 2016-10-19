@@ -1,6 +1,6 @@
 package nobugsj;
 
-import pt.uc.dei.nobugssnackbar.MundoVisual;
+import pt.uc.dei.nobugssnackbar.VisualWorld;
 import pt.uc.dei.nobugssnackbar.Order;
 import pt.uc.dei.nobugssnackbar.SnackMan;
 
@@ -47,7 +47,7 @@ public class NoBugsM1 extends SnackMan {
 	}
 	
 	public static void main(String[] args) {
-		MundoVisual.iniciar("mission01.dat", NoBugsM1.class);
+		VisualWorld.start("mission01.dat", NoBugsM1.class);
 	}
 
 }
