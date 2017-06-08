@@ -11,7 +11,7 @@ public class Deliver extends Objective {
 
 	@Override
 	public String getText() {
-		return String.format("Entregue o pedido do cliente %d.", this.conf.getPos());
+		return String.format("Deliver customer's %d request.", this.conf.getPos());
 	}
 
 

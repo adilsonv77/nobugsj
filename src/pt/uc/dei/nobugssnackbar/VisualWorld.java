@@ -81,7 +81,7 @@ public class VisualWorld extends JFrame {
 		getContentPane().add(mundoNoBugs, "Center");
 		
 		objetivos = new JCheckList();
-		objetivos.setTitle("Goals:");
+		objetivos.setTitle("Objetivos:");
 		
 		for (Objective obj:mundoNoBugs.getObjectives())
 			objetivos.addItem(obj.getText());
@@ -121,7 +121,7 @@ public class VisualWorld extends JFrame {
 		JPanel jconsole = new JPanel(new BorderLayout());
 		
 		JPanel jp = new JPanel(new GridLayout(2, 1));
-		jp.setPreferredSize(new Dimension(265, 72));
+		jp.setPreferredSize(new Dimension(365, 72));
 		jconsole.add(jp, "West");
 		
 		jpTests = new TestsCounter(exercicio.getTests());
@@ -130,7 +130,7 @@ public class VisualWorld extends JFrame {
 		JPanel jpBotoes = new JPanel();
 		jp.add(jpBotoes);
 
-		jbExecutar = new JButton("Run");
+		jbExecutar = new JButton("Executar");
 		jpBotoes.add(jbExecutar);
 		ActionListener action = new ActionListener() {
 
@@ -143,7 +143,7 @@ public class VisualWorld extends JFrame {
 		};
 		jbExecutar.addActionListener(action);
 
-		jbRenovar = new JButton("New");
+		jbRenovar = new JButton("Novo");
 		jpBotoes.add(jbRenovar);
 		jbRenovar.addActionListener(new ActionListener() {
 
@@ -163,7 +163,7 @@ public class VisualWorld extends JFrame {
 			}
 
 		});
-		jbParar = new JButton("Stop");
+		jbParar = new JButton("Parar");
 		jbParar.setEnabled(false);
 		jpBotoes.add(jbParar);
 		jbParar.addActionListener(new ActionListener() {
@@ -177,7 +177,7 @@ public class VisualWorld extends JFrame {
 
 		});
 		
-		jbEnunciado = new JButton("Description");
+		jbEnunciado = new JButton("Enunciado");
 		jbEnunciado.setEnabled(true);
 		jpBotoes.add(jbEnunciado);
 		jbEnunciado.addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ public class VisualWorld extends JFrame {
 			}
 
 		});
-		jpSlider.add(new JLabel("   Speed :"));
+		jpSlider.add(new JLabel("Velocidade :"));
 		jpSlider.add(slider);
 		jp.add(jpSlider);
 		return jconsole;
@@ -284,23 +284,7 @@ public class VisualWorld extends JFrame {
 	public static void start(String nomeArquivo, final Class<? extends SnackMan> snackManClass) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			final Exercicio exercicio = ExercicioFactory.create(nomeArquivo);
-			EventQueue.invokeLater(new Runnable() {
-
-				public void run() {
-					try {
-						new VisualWorld(exercicio, snackManClass);
-					} catch (ClassNotFoundException classE) {
-						JOptionPane.showMessageDialog(null, (new StringBuilder(
-								"Voc\352 precisa criar uma classe de nome "))
-								.append(classE.getLocalizedMessage())
-								.toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-
-			});
+			doStart(nomeArquivo, snackManClass);
 		} catch (Exception e) {
 			System.out.println("Problemas no carregamento do Exerc\355cio");
 			e.printStackTrace();
@@ -308,6 +292,26 @@ public class VisualWorld extends JFrame {
 
 	}
 	
+	private static void doStart(String nomeArquivo, final Class<? extends SnackMan> snackManClass) throws Exception {
+		final Exercicio exercicio = ExercicioFactory.create(nomeArquivo);
+		EventQueue.invokeLater(new Runnable() {
+
+			public void run() {
+				try {
+					new VisualWorld(exercicio, snackManClass);
+				} catch (ClassNotFoundException classE) {
+					JOptionPane.showMessageDialog(null, (new StringBuilder(
+							"Voc\352 precisa criar uma classe de nome "))
+							.append(classE.getLocalizedMessage())
+							.toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		});
+	}
+
 	private JTextArea console;
 	private boolean executou;
 	private int mundoAtual;

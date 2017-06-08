@@ -1,3 +1,6 @@
+0.7 - 23/03/2017
++ Não aparecia o botão de descrição no Mac.
+
 0.6
 + Renomeei a classe MundoVisual e o método iniciar para inglês.
 
